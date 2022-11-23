@@ -1,0 +1,11 @@
+*.synctex.gz
+*.log
+*.aux
+*.out
+*.toc
+*.bbl
+*.blg
+*.exe
+*.pro.user
+**-Debug/
+**-Release/
