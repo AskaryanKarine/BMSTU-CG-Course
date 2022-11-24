@@ -17,8 +17,8 @@ private:
     int _width;
     int _maxDepth;
 
-    //    std::vector<Figure> _figures;
-    //    std::vector<Light> _lights;
+    //    std::vector<Model> _figures;
+    //    std::vector<BaseLight> _lights;
     //    Camera _cam;
 };
 

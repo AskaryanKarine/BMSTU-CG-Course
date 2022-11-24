@@ -7,13 +7,14 @@
 #include <QMessageBox>
 
 #include "sphere.h"
+#include "lightsource.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QAction* SettingAction = ui->menubar->addAction("Настройки");
+    QAction* SettingAction = ui->menubar->addAction("Настройки сцены");
     //        connect(SettingAction, SIGNAL(triggered()), this, SLOT(app_info_show()));
     QAction* HelpAction = ui->menubar->addAction("Помощь");
     //        connect(HelpAction, SIGNAL(triggered()), this, SLOT(author_info_show()));
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget* parent)
     ui->graphicsView->scene()->clear();
 
     Sphere a();
+    LightSource b();
 }
 
 MainWindow::~MainWindow()
