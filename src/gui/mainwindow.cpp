@@ -6,8 +6,8 @@
 #include <QGraphicsScene>
 #include <QMessageBox>
 
-#include "sphere.h"
 #include "lightsource.h"
+#include "sphere.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -15,18 +15,15 @@ MainWindow::MainWindow(QWidget* parent)
 {
     ui->setupUi(this);
     QAction* SettingAction = ui->menubar->addAction("Настройки сцены");
-    //        connect(SettingAction, SIGNAL(triggered()), this, SLOT(app_info_show()));
-    QAction* HelpAction = ui->menubar->addAction("Помощь");
-    //        connect(HelpAction, SIGNAL(triggered()), this, SLOT(author_info_show()));
+    connect(SettingAction, SIGNAL(triggered()), this, SLOT(open_setting()));
+    //    QAction* HelpAction = ui->menubar->addAction("Помощь");
+    //    connect(HelpAction, SIGNAL(triggered()), this, SLOT(author_info_show()));
     QAction* ExitAction = ui->menubar->addAction(("Выход"));
     connect(ExitAction, SIGNAL(triggered()), this, SLOT(exit_show()));
 
     QGraphicsScene* scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
     ui->graphicsView->scene()->clear();
-
-    Sphere a();
-    LightSource b();
 }
 
 MainWindow::~MainWindow()
@@ -68,6 +65,10 @@ void MainWindow::show_color(QColor color, QLabel* lab)
     lab->setPixmap(pixmap);
 }
 
+void MainWindow::open_setting()
+{
+}
+
 void MainWindow::on_pushButton_sph_color_clicked()
 {
     QColorDialog dialog;
@@ -80,4 +81,8 @@ void MainWindow::on_pushButton_sph_color_clicked()
     else
         tmp = color;
     show_color(tmp, ui->label_sph_color);
+}
+
+void MainWindow::on_pushButton_draw_clicked()
+{
 }

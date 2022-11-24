@@ -22,6 +22,9 @@ private slots:
     void on_pushButton_sph_color_clicked();
     void error_message(QString str);
     void show_color(QColor color, QLabel* lab);
+    void open_setting();
+
+    void on_pushButton_draw_clicked();
 
 private:
     Ui::MainWindow* ui;
