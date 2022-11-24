@@ -10,7 +10,7 @@ public:
     ~Sphere() {};
 
     bool rayIntersect(const QVector3D& origin, const QVector3D& direction, double& t) override; // TODO
-    void transform() override; // TODO
+    void transform(const QVector3D& move, const QVector3D& scale, const QVector3D& rotate) override; // TODO
 
     double get_radius();
     void set_radius(double r);

@@ -3,7 +3,6 @@
 
 #include "material.h"
 #include "object.h"
-#include <QVector3D>
 
 class Model : public Object {
 public:
