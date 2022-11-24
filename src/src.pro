@@ -14,7 +14,6 @@ SOURCES += \
     material/material.cpp \
     object/camera/camera.cpp \
     object/light/baselight.cpp \
-    object/light/inf_light/inflightsource.cpp \
     object/light/light_source/lightsource.cpp \
     object/model/polyhedron/polyhedron.cpp \
     object/model/sphere/sphere.cpp \
@@ -25,7 +24,6 @@ HEADERS += \
     material/material.h \
     object/camera/camera.h \
     object/light/baselight.h \
-    object/light/inf_light/inflightsource.h \
     object/light/light_source/lightsource.h \
     object/model/model.h \
     object/model/polyhedron/polyhedron.h \
@@ -53,3 +51,6 @@ INCLUDEPATH += \
     object/model/polyhedron \
     object/model/sphere \
     picture
+
+RESOURCES += \
+    gui/icons.qrc
