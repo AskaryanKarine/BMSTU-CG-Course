@@ -6,6 +6,8 @@
 #include <QGraphicsScene>
 #include <QMessageBox>
 
+#include "sphere.h"
+
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -21,6 +23,8 @@ MainWindow::MainWindow(QWidget* parent)
     QGraphicsScene* scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
     ui->graphicsView->scene()->clear();
+
+    Sphere a();
 }
 
 MainWindow::~MainWindow()

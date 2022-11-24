@@ -1,11 +1,12 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-
-class Object
-{
+class Object {
 public:
-    Object();
+    Object() = default;
+    virtual ~Object() = default;
+
+    virtual void transform() = 0;
 };
 
 #endif // OBJECT_H
