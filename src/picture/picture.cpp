@@ -43,9 +43,6 @@ int Picture::get_maxDepth()
 
 std::shared_ptr<QImage> Picture::drawingFgure()
 {
-    _cam = Camera();
-    _cam.set_direction(QVector3D(0, 0, 3000));
-
     std::shared_ptr<QImage> image = std::make_shared<QImage>(_width, _height, QImage::Format_RGB32);
     image->fill(Qt::black);
 

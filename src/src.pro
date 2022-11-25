@@ -52,7 +52,8 @@ INCLUDEPATH += \
     object/model \
     object/model/polyhedron \
     object/model/sphere \
-    picture
+    picture \
+    scene
 
 RESOURCES += \
     gui/icons.qrc
