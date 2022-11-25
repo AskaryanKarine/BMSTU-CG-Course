@@ -17,7 +17,8 @@ SOURCES += \
     object/light/light_source/lightsource.cpp \
     object/model/polyhedron/polyhedron.cpp \
     object/model/sphere/sphere.cpp \
-    picture/picture.cpp
+    picture/picture.cpp \
+    scene/scene.cpp
 
 HEADERS += \
     gui/mainwindow.h \
@@ -29,7 +30,8 @@ HEADERS += \
     object/model/polyhedron/polyhedron.h \
     object/model/sphere/sphere.h \
     object/object.h \
-    picture/picture.h
+    picture/picture.h \
+    scene/scene.h
 
 FORMS += \
     gui/mainwindow.ui

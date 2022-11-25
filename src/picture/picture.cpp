@@ -41,16 +41,6 @@ int Picture::get_maxDepth()
     return _maxDepth;
 }
 
-void Picture::set_camera(Camera cam)
-{
-    _cam = cam;
-}
-
-Camera Picture::get_camera()
-{
-    return _cam;
-}
-
 std::shared_ptr<QImage> Picture::drawingFgure()
 {
     _cam = Camera();
