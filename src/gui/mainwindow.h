@@ -19,12 +19,9 @@ public:
 
 private slots:
     void exit_show();
-    void on_pushButton_sph_color_clicked();
     void error_message(QString str);
     void show_color(QColor color, QLabel* lab);
-    void open_setting();
-
-    void on_pushButton_draw_clicked();
+    void on_pB_sphereColor_clicked();
 
 private:
     Ui::MainWindow* ui;

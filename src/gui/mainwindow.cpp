@@ -14,10 +14,8 @@ MainWindow::MainWindow(QWidget* parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QAction* SettingAction = ui->menubar->addAction("Настройки сцены");
-    connect(SettingAction, SIGNAL(triggered()), this, SLOT(open_setting()));
-    //    QAction* HelpAction = ui->menubar->addAction("Помощь");
-    //    connect(HelpAction, SIGNAL(triggered()), this, SLOT(author_info_show()));
+    QAction* HelpAction = ui->menubar->addAction("Помощь");
+    //        connect(HelpAction, SIGNAL(triggered()), this, SLOT(author_info_show()));
     QAction* ExitAction = ui->menubar->addAction(("Выход"));
     connect(ExitAction, SIGNAL(triggered()), this, SLOT(exit_show()));
 
@@ -65,11 +63,7 @@ void MainWindow::show_color(QColor color, QLabel* lab)
     lab->setPixmap(pixmap);
 }
 
-void MainWindow::open_setting()
-{
-}
-
-void MainWindow::on_pushButton_sph_color_clicked()
+void MainWindow::on_pB_sphereColor_clicked()
 {
     QColorDialog dialog;
     dialog.setCurrentColor(tmp);
@@ -80,9 +74,5 @@ void MainWindow::on_pushButton_sph_color_clicked()
         error_message("Выберите цвет");
     else
         tmp = color;
-    show_color(tmp, ui->label_sph_color);
-}
-
-void MainWindow::on_pushButton_draw_clicked()
-{
+    show_color(tmp, ui->lbl_sphereColor);
 }

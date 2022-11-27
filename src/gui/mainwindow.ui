@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1065</width>
-    <height>657</height>
+    <height>719</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Трассировка лучей</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QFormLayout" name="formLayout">
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
@@ -33,7 +33,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_2">
+            <widget class="QComboBox" name="cB_figType">
              <item>
               <property name="text">
                <string>Шар</string>
@@ -82,7 +82,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="pB_figAdd">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -110,8 +110,22 @@
              </property>
             </widget>
            </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_22">
            <item>
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QComboBox" name="cB_figAll"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pB_figDel">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -142,27 +156,262 @@
           </layout>
          </item>
          <item>
-          <widget class="Line" name="line">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+          <layout class="QHBoxLayout" name="horizontalLayout_23">
+           <item>
+            <widget class="QPushButton" name="pB_figColor">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Цвет</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lbl_figColor">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Переместить</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_3"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item>
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>x</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="sB_figMoveX">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <item>
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>y</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="sB_figMoveY">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_13">
+             <item>
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>z</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="sB_figMoveZ">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </item>
          <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Повернуть</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_15">
+             <item>
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>x</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="sB_figRotateX">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_16">
+             <item>
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string>y</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="sB_figRotateY">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_17">
+             <item>
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>z</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="sB_figRotateZ">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_19">
+           <property name="text">
+            <string>Увеличить</string>
            </property>
-          </spacer>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_18">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_19">
+             <item>
+              <widget class="QLabel" name="label_16">
+               <property name="text">
+                <string>x</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="sB_figScaleX">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_20">
+             <item>
+              <widget class="QLabel" name="label_17">
+               <property name="text">
+                <string>y</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="sB_figScaleY">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_21">
+             <item>
+              <widget class="QLabel" name="label_18">
+               <property name="text">
+                <string>z</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="sB_figScaleZ">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -176,10 +425,10 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <widget class="QComboBox" name="comboBox"/>
+            <widget class="QComboBox" name="cB_lightAll"/>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="pB_lightAdd">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -208,7 +457,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="pB_lightDel">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -257,7 +506,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="spinBox">
+              <widget class="QSpinBox" name="sB_lightMoveX">
                <property name="minimum">
                 <number>-1000</number>
                </property>
@@ -278,7 +527,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="spinBox_2">
+              <widget class="QSpinBox" name="sB_lightMoveY">
                <property name="minimum">
                 <number>-1000</number>
                </property>
@@ -299,7 +548,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="spinBox_3">
+              <widget class="QSpinBox" name="sB_lightMoveZ">
                <property name="minimum">
                 <number>-1000</number>
                </property>
@@ -315,6 +564,19 @@
         </layout>
        </widget>
       </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </item>
     <item row="0" column="1">
@@ -325,7 +587,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="pushButton_draw">
+         <widget class="QPushButton" name="pB_draw">
           <property name="maximumSize">
            <size>
             <width>131</width>
@@ -338,7 +600,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QProgressBar" name="progressBar">
+         <widget class="QProgressBar" name="pBar_draw">
           <property name="maximumSize">
            <size>
             <width>131</width>
@@ -380,7 +642,7 @@
           <number>11</number>
          </property>
          <item>
-          <widget class="QPushButton" name="pushButton_cam_left">
+          <widget class="QPushButton" name="pB_cameraLeft">
            <property name="minimumSize">
             <size>
              <width>40</width>
@@ -409,7 +671,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_cam_up">
+          <widget class="QPushButton" name="pB_cameraUp">
            <property name="minimumSize">
             <size>
              <width>40</width>
@@ -438,7 +700,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_cam_down">
+          <widget class="QPushButton" name="pB_cameraDown">
            <property name="minimumSize">
             <size>
              <width>40</width>
@@ -467,7 +729,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_cam_right">
+          <widget class="QPushButton" name="pB_cameraRight">
            <property name="minimumSize">
             <size>
              <width>40</width>
@@ -495,6 +757,64 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="pB_cameraZoom">
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="icons.qrc">
+             <normaloff>:/icon/icons/free-icon-plus-sign-8113168.png</normaloff>:/icon/icons/free-icon-plus-sign-8113168.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_cam_right_3">
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="icons.qrc">
+             <normaloff>:/icon/icons/minus-sign.png</normaloff>:/icon/icons/minus-sign.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -511,7 +831,7 @@
           <number>11</number>
          </property>
          <item>
-          <widget class="QPushButton" name="pushButton_sph_color">
+          <widget class="QPushButton" name="pB_sphereColor">
            <property name="maximumSize">
             <size>
              <width>60</width>
@@ -524,7 +844,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_sph_color">
+          <widget class="QLabel" name="lbl_sphereColor">
            <property name="minimumSize">
             <size>
              <width>40</width>
@@ -544,7 +864,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_transp">
+          <widget class="QDoubleSpinBox" name="dSB_sphereTransparency">
            <property name="singleStep">
             <double>0.010000000000000</double>
            </property>
@@ -558,7 +878,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_n">
+          <widget class="QDoubleSpinBox" name="dSB_sphereReflection">
            <property name="singleStep">
             <double>0.010000000000000</double>
            </property>
@@ -593,7 +913,25 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Сцена</string>
+    </property>
+    <addaction name="actionLoadScene"/>
+    <addaction name="actionCaveScene"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
+  <action name="actionLoadScene">
+   <property name="text">
+    <string>Загрузить</string>
+   </property>
+  </action>
+  <action name="actionCaveScene">
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="icons.qrc"/>
