@@ -16,15 +16,17 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
+    void showEvent(QShowEvent* ev);
 
 private slots:
-    void exit_show();
-    void error_message(QString str);
-    void show_color(QColor color, QLabel* lab);
+    void app_exit();
+    void show_error(QString str);
+    void set_color(QColor color, QLabel* lab);
+    void windowShown();
     void on_pB_sphereColor_clicked();
 
 private:
     Ui::MainWindow* ui;
-    QColor tmp;
+    QColor tmp = Qt::black;
 };
 #endif // MAINWINDOW_H

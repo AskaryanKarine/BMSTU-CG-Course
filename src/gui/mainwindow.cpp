@@ -5,6 +5,9 @@
 #include <QColorDialog>
 #include <QGraphicsScene>
 #include <QMessageBox>
+#include <QTimer>
+
+#include <iostream>
 
 #include "lightsource.h"
 #include "sphere.h"
@@ -17,7 +20,7 @@ MainWindow::MainWindow(QWidget* parent)
     QAction* HelpAction = ui->menubar->addAction("Помощь");
     //        connect(HelpAction, SIGNAL(triggered()), this, SLOT(author_info_show()));
     QAction* ExitAction = ui->menubar->addAction(("Выход"));
-    connect(ExitAction, SIGNAL(triggered()), this, SLOT(exit_show()));
+    connect(ExitAction, SIGNAL(triggered()), this, SLOT(app_exit()));
 
     QGraphicsScene* scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
@@ -30,12 +33,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::error_message(QString str)
+void MainWindow::show_error(QString str)
 {
     QMessageBox::critical(NULL, "Ошибка", str);
 }
 
-void MainWindow::exit_show()
+void MainWindow::app_exit()
 {
     QMessageBox msg_quit;
     msg_quit.setText("Работа с программой будет завершена");
@@ -49,16 +52,16 @@ void MainWindow::exit_show()
         qApp->quit();
 }
 
-void MainWindow::show_color(QColor color, QLabel* lab)
+void MainWindow::set_color(QColor color, QLabel* lab)
 {
-    QImage im = QImage(lab->geometry().width(), lab->geometry().height(), QImage::Format_RGB32);
-    QPainter p(&im);
+    QImage img = QImage(lab->geometry().width(), lab->geometry().height(), QImage::Format_RGB32);
+    QPainter p(&img);
     p.setBrush(QBrush(color));
     p.setPen(Qt::black);
     QRect rect = QRect(0, 0, lab->geometry().width(), lab->geometry().height());
     p.drawRect(rect);
 
-    QPixmap pixmap = QPixmap::fromImage(im);
+    QPixmap pixmap = QPixmap::fromImage(img);
     lab->clear();
     lab->setPixmap(pixmap);
 }
@@ -71,8 +74,23 @@ void MainWindow::on_pB_sphereColor_clicked()
     dialog.exec();
     QColor color = dialog.selectedColor();
     if (!color.isValid())
-        error_message("Выберите цвет");
+        show_error("Выберите цвет");
     else
         tmp = color;
-    show_color(tmp, ui->lbl_sphereColor);
+    set_color(tmp, ui->lbl_sphereColor);
+}
+
+void MainWindow::showEvent(QShowEvent* ev) // когда окно полностью сконструировано
+{
+    QMainWindow::showEvent(ev);
+    QTimer::singleShot(50, this, SLOT(windowShown()));
+}
+
+void MainWindow::windowShown() // начальный вывод на экран
+{
+    //    std::cout << ui->groupBox_4->width() << std::endl;
+    const int image_width = ui->graphicsView->width();
+    const int image_height = ui->graphicsView->height();
+    //    pic.set_height(image_height);
+    //    pic.set_width(image_width);
 }
