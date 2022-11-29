@@ -72,7 +72,7 @@ bool Picture::scene_intersect(QVector3D orig, QVector3D dir, QVector3D& hit, QVe
     N = QVector3D(0, 0, 0);
 
     for (size_t i = 0; i < models.size(); i++) {
-        double dist_i;
+        double dist_i = 0;
         if (models[i]->rayIntersect(orig, dir, dist_i) && dist_i < dist) {
             dist = dist_i;
             hit = orig + dir * dist;
@@ -189,7 +189,8 @@ std::shared_ptr<QImage> Picture::drawingFgure()
     for (int y = 0; y < _height; y++) {
         for (int x = 0; x < _width; x++) {
             QVector3D screen(x, y, 200);
-            _cam.set_direction((screen - _cam.get_position()).normalized());
+            QVector3D dir = (screen - _cam.get_position()).normalized();
+            _cam.set_direction(dir);
             QColor res = cast_ray(_cam.get_position(), _cam.get_direction(), 0);
             image->setPixelColor(x, y, res);
         }

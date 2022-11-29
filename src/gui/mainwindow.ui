@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1204</width>
-    <height>797</height>
+    <width>1368</width>
+    <height>907</height>
    </rect>
   </property>
   <property name="font">
@@ -436,6 +436,28 @@
       </item>
       <item>
        <widget class="QGroupBox" name="groupBox_3">
+        <property name="styleSheet">
+         <string notr="true"> QGroupBox {
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #E0E0E0, stop: 1 #FFFFFF);
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 1ex; /* оставляем пространство вверху для заголовка */
+ }
+
+ QGroupBox::title {
+     subcontrol-origin: margin;
+     subcontrol-position: top center; /* помещаем вверху по центру */
+     padding: 0 3px;
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #FFOECE, stop: 1 #FFFFFF);
+ }
+
+ QGroupBox::indicator {
+     width: 13px;
+     height: 13px;
+ }</string>
+        </property>
         <property name="title">
          <string>Источники света</string>
         </property>
@@ -600,6 +622,17 @@
         <layout class="QHBoxLayout" name="horizontalLayout_24">
          <item>
           <widget class="QPushButton" name="pB_backgroundColor">
+           <property name="styleSheet">
+            <string notr="true">.QPushButton {
+	border: 2px solid #4CAF50;
+}
+
+.QPushButton:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+</string>
+           </property>
            <property name="text">
             <string>Цвет фона</string>
            </property>
@@ -686,28 +719,6 @@
            </property>
            <property name="text">
             <string>Применить изменения</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QProgressBar" name="pBar_draw">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="value">
-            <number>50</number>
-           </property>
-           <property name="textVisible">
-            <bool>false</bool>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="invertedAppearance">
-            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -1020,8 +1031,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1204</width>
-     <height>28</height>
+     <width>1368</width>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

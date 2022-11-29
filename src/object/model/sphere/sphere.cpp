@@ -26,11 +26,13 @@ bool Sphere::rayIntersect(const QVector3D& origin, const QVector3D& direction, d
 
     double thc = sqrt(rad2 - d2); // расстояние от той ближайшей точки до пересечения
 
-    t = tca - thc;
+    double t0 = tca - thc;
     double t1 = tca + thc; // 0 - если внутри сферы, 1 - если снаружи
-    if (t < 0.0)
+    if (t0 > 1.0)
+        t = t0;
+    else if (t1 > 1.0)
         t = t1;
-    if (t < 0.0)
+    else
         return false;
 
     QVector3D pt = origin + direction * t;

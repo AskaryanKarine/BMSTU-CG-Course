@@ -9,9 +9,9 @@ Scene::Scene()
 
 void Scene::init_scene()
 {
-    _backgroungColor = Qt::black;
+    _backgroungColor = Qt::white;
     Material m(1, 100, QVector4D(0.6, 1, 1, 0), QColor(200, 200, 200));
-    auto mainSph = std::make_shared<Sphere>(QVector3D(550, 700, 100), 200, m);
+    auto mainSph = std::make_shared<Sphere>(QVector3D(300, 200, 100), 200, m);
     _obj.push_back(mainSph);
 }
 
@@ -64,13 +64,3 @@ void Scene::set_backfroundColor(QColor bc)
 {
     _backgroungColor = bc;
 }
-
-// Camera Scene::get_camera()
-//{
-//     return _cam;
-// }
-
-// void Scene::set_camera(Camera c)
-//{
-//     _cam = c;
-// }
