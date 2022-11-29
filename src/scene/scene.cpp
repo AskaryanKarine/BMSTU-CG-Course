@@ -8,19 +8,19 @@ Scene::Scene()
 
 void Scene::init_scene()
 {
-    _cam.set_position(QVector3D(0, 0, 3000));
-    //    _obj.push_back(Sphere());
+    _backgroungColor = Qt::black;
+    //        _obj.push_back(Sphere());
 }
 
-// std::vector<Model> Scene::get_model()
-//{
-////    return _obj;
-//}
+std::vector<std::shared_ptr<Model>> Scene::get_model()
+{
+    return _obj;
+}
 
-// void Scene::add_model(Model m)
-//{
-//     //    _obj.push_back(m);
-// }
+void Scene::add_model(std::shared_ptr<Model> m)
+{
+    _obj.push_back(m);
+}
 
 void Scene::remove_model(int id)
 {
@@ -29,18 +29,18 @@ void Scene::remove_model(int id)
 
 void Scene::transform_model(int id, QVector3D m, QVector3D s, QVector3D r)
 {
-    _obj[id].transform(m, s, r);
+    _obj[id]->transform(m, s, r);
 }
 
-// std::vector<BaseLight> Scene::get_light()
-//{
-//     return _lights;
-// }
+std::vector<std::shared_ptr<BaseLight>> Scene::get_light()
+{
+    return _lights;
+}
 
-// void Scene::add_light(BaseLight l)
-//{
-//     //    _lights.push_back(l);
-// }
+void Scene::add_light(std::shared_ptr<BaseLight> l)
+{
+    _lights.push_back(l);
+}
 
 void Scene::remove_light(int id)
 {
@@ -49,5 +49,25 @@ void Scene::remove_light(int id)
 
 void Scene::transform_light(int id, QVector3D m)
 {
-    _lights[id].transform(m, QVector3D(1, 1, 1), QVector3D(0, 0, 0));
+    _lights[id]->transform(m, QVector3D(1, 1, 1), QVector3D(0, 0, 0));
 }
+
+QColor Scene::get_backgroundColor()
+{
+    return _backgroungColor;
+}
+
+void Scene::set_backfroundColor(QColor bc)
+{
+    _backgroungColor = bc;
+}
+
+// Camera Scene::get_camera()
+//{
+//     return _cam;
+// }
+
+// void Scene::set_camera(Camera c)
+//{
+//     _cam = c;
+// }
