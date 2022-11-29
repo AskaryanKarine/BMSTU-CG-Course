@@ -1,5 +1,6 @@
 #include "scene.h"
 
+#include "material.h"
 #include "sphere.h"
 
 Scene::Scene()
@@ -9,7 +10,9 @@ Scene::Scene()
 void Scene::init_scene()
 {
     _backgroungColor = Qt::black;
-    //        _obj.push_back(Sphere());
+    Material m(1, 100, QVector4D(0.6, 1, 1, 0), QColor(200, 200, 200));
+    auto mainSph = std::make_shared<Sphere>(QVector3D(550, 700, 100), 200, m);
+    _obj.push_back(mainSph);
 }
 
 std::vector<std::shared_ptr<Model>> Scene::get_model()
