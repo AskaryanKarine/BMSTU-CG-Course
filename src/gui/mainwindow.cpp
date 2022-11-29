@@ -7,11 +7,6 @@
 #include <QMessageBox>
 #include <QTimer>
 
-#include <iostream>
-
-#include "lightsource.h"
-#include "sphere.h"
-
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -25,6 +20,12 @@ MainWindow::MainWindow(QWidget* parent)
     QGraphicsScene* scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
     ui->graphicsView->scene()->clear();
+
+    auto bc = picture.get_backColor();
+
+    set_color(tmp, ui->lbl_sphereColor);
+    set_color(tmp, ui->lbl_figColor);
+    set_color(bc, ui->lbl_backgroundColor);
 }
 
 MainWindow::~MainWindow()
@@ -36,6 +37,15 @@ MainWindow::~MainWindow()
 void MainWindow::show_error(QString str)
 {
     QMessageBox::critical(NULL, "Ошибка", str);
+}
+
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+    QMainWindow::resizeEvent(event);
+    const int image_width = ui->graphicsView->width();
+    const int image_height = ui->graphicsView->height();
+    picture.set_height(image_height);
+    picture.set_width(image_width);
 }
 
 void MainWindow::app_exit()
@@ -68,15 +78,7 @@ void MainWindow::set_color(QColor color, QLabel* lab)
 
 void MainWindow::on_pB_sphereColor_clicked()
 {
-    QColorDialog dialog;
-    dialog.setCurrentColor(tmp);
-    dialog.show();
-    dialog.exec();
-    QColor color = dialog.selectedColor();
-    if (!color.isValid())
-        show_error("Выберите цвет");
-    else
-        tmp = color;
+    color_dialog(tmp);
     set_color(tmp, ui->lbl_sphereColor);
 }
 
@@ -88,9 +90,40 @@ void MainWindow::showEvent(QShowEvent* ev) // когда окно полност
 
 void MainWindow::windowShown() // начальный вывод на экран
 {
-    //    std::cout << ui->groupBox_4->width() << std::endl;
     const int image_width = ui->graphicsView->width();
     const int image_height = ui->graphicsView->height();
-    //    pic.set_height(image_height);
-    //    pic.set_width(image_width);
+    picture.set_height(image_height);
+    picture.set_width(image_width);
+}
+
+void MainWindow::on_pB_figColor_clicked()
+{
+}
+
+void MainWindow::on_pB_backgroundColor_clicked()
+{
+    QColor tmpC = picture.get_backColor();
+    color_dialog(tmpC);
+    set_color(tmpC, ui->lbl_backgroundColor);
+    picture.set_backColor(tmpC);
+}
+
+void MainWindow::color_dialog(QColor& color)
+{
+    QColorDialog dialog;
+    dialog.setCurrentColor(color);
+    dialog.show();
+    dialog.exec();
+    QColor tmp = dialog.selectedColor();
+    if (!tmp.isValid())
+        show_error("Выберите цвет");
+    else
+        color = tmp;
+}
+
+void MainWindow::on_pB_draw_clicked()
+{
+    img = picture.drawingFgure();
+    QPixmap pxm = QPixmap::fromImage(*img);
+    ui->graphicsView->scene()->addPixmap(pxm);
 }

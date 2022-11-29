@@ -4,6 +4,8 @@
 #include <QLabel>
 #include <QMainWindow>
 
+#include "picture.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -17,6 +19,7 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
     void showEvent(QShowEvent* ev);
+    void resizeEvent(QResizeEvent* event);
 
 private slots:
     void app_exit();
@@ -24,9 +27,18 @@ private slots:
     void set_color(QColor color, QLabel* lab);
     void windowShown();
     void on_pB_sphereColor_clicked();
+    void on_pB_figColor_clicked();
+
+    void on_pB_backgroundColor_clicked();
+
+    void on_pB_draw_clicked();
 
 private:
     Ui::MainWindow* ui;
     QColor tmp = Qt::black;
+    Picture picture;
+    std::shared_ptr<QImage> img;
+
+    void color_dialog(QColor& color);
 };
 #endif // MAINWINDOW_H
