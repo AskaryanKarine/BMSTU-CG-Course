@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1368</width>
-    <height>907</height>
+    <width>1216</width>
+    <height>751</height>
    </rect>
   </property>
   <property name="font">
@@ -32,6 +32,18 @@
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
             <widget class="QLabel" name="label_7">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="text">
               <string>Тип</string>
              </property>
@@ -198,7 +210,7 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>60</width>
+               <width>40</width>
                <height>16777215</height>
               </size>
              </property>
@@ -450,7 +462,7 @@
      subcontrol-position: top center; /* помещаем вверху по центру */
      padding: 0 3px;
      background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #FFOECE, stop: 1 #FFFFFF);
+                                       stop: 0 #FF0ECE, stop: 1 #FFFFFF);
  }
 
  QGroupBox::indicator {
@@ -624,11 +636,11 @@
           <widget class="QPushButton" name="pB_backgroundColor">
            <property name="styleSheet">
             <string notr="true">.QPushButton {
-	border: 2px solid #4CAF50;
+	border: 2px solid '#4CAF50';
 }
 
 .QPushButton:hover {
-    background-color: #4CAF50; /* Green */
+    background-color: '#4CAF50'; /* Green */
     color: white;
 }
 </string>
@@ -648,7 +660,7 @@
            </property>
            <property name="maximumSize">
             <size>
-             <width>60</width>
+             <width>40</width>
              <height>16777215</height>
             </size>
            </property>
@@ -738,7 +750,7 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <layout class="QHBoxLayout" name="horizontalLayout_25">
       <item>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="title">
@@ -973,6 +985,12 @@
              <height>40</height>
             </size>
            </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -1004,6 +1022,9 @@
            <property name="singleStep">
             <double>0.010000000000000</double>
            </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
           </widget>
          </item>
         </layout>
@@ -1031,8 +1052,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1368</width>
-     <height>32</height>
+     <width>1216</width>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

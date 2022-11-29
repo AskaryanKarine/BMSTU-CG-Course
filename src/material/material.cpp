@@ -9,7 +9,7 @@ Material::Material(double r, double spec, QVector4D alb, QColor difcol)
     , _specular_exponent(spec)
     , _albedo(alb)
     , _difColor(difcol)
-    , _specColor(1, 1, 1)
+    , _specColor(255, 255, 255)
 {
 }
 

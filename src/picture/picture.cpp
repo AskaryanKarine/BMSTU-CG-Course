@@ -64,6 +64,21 @@ QColor Picture::get_backColor()
     return _scene.get_backgroundColor();
 }
 
+void Picture::set_mainSphereColor(QColor c)
+{
+    _scene.set_mainSphereColor(c);
+}
+
+QColor Picture::get_mainSphereColor()
+{
+    return _scene.get_mainSphereColor();
+}
+
+void Picture::set_refIndex(double r)
+{
+    _scene.set_refractiveIndex(r);
+}
+
 bool Picture::scene_intersect(QVector3D orig, QVector3D dir, QVector3D& hit, QVector3D& N, Material& m, int& closest)
 {
     double dist = std::numeric_limits<double>::max();
@@ -81,7 +96,6 @@ bool Picture::scene_intersect(QVector3D orig, QVector3D dir, QVector3D& hit, QVe
             N = models[i]->get_normal();
         }
     }
-
     if (closest == -1)
         return false;
 

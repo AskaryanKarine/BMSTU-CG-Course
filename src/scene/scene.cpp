@@ -1,7 +1,10 @@
 #include "scene.h"
 
+#include "lightsource.h"
 #include "material.h"
 #include "sphere.h"
+
+#include <iostream>
 
 Scene::Scene()
 {
@@ -9,10 +12,22 @@ Scene::Scene()
 
 void Scene::init_scene()
 {
-    _backgroungColor = Qt::white;
-    Material m(1, 100, QVector4D(0.6, 1, 1, 0), QColor(200, 200, 200));
-    auto mainSph = std::make_shared<Sphere>(QVector3D(300, 200, 100), 200, m);
+    _backgroungColor = Qt::black;
+    // Элементы по умолчанию. 0 - главная сфера, 1 - нижняя плоскость, ниже которой нельзя поместить объекты
+    Material m(1, 100, QVector4D(0.2, 0.9, 0.7, 0), QColor(188, 21, 79));
+    auto mainSph = std::make_shared<Sphere>(QVector3D(480, 311, 100), 200, m);
     _obj.push_back(mainSph);
+
+    Material m1(1, 100, QVector4D(0.6, 1, 0, 0), QColor(105, 105, 0));
+    auto Sph = std::make_shared<Sphere>(QVector3D(300, 311, -200), 200, m1);
+    _obj.push_back(Sph);
+
+    auto l = std::make_shared<LightSource>(QVector3D(0, 0, 0));
+    _lights.push_back(l);
+    auto l1 = std::make_shared<LightSource>(QVector3D(700, 500, 200));
+    _lights.push_back(l1);
+    auto l2 = std::make_shared<LightSource>(QVector3D(500, 500, 500));
+    _lights.push_back(l2);
 }
 
 std::vector<std::shared_ptr<Model>> Scene::get_model()
@@ -63,4 +78,23 @@ QColor Scene::get_backgroundColor()
 void Scene::set_backfroundColor(QColor bc)
 {
     _backgroungColor = bc;
+}
+
+QColor Scene::get_mainSphereColor()
+{
+    return _obj[0]->get_material().get_difColor();
+}
+
+void Scene::set_mainSphereColor(QColor c)
+{
+    auto m = _obj[0]->get_material();
+    m.set_difColor(c);
+    _obj[0]->set_material(m);
+}
+
+void Scene::set_refractiveIndex(double r)
+{
+    auto m = _obj[0]->get_material();
+    m.set_refractive_index(r);
+    _obj[0]->set_material(m);
 }

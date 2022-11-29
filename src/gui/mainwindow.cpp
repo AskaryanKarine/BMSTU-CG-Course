@@ -22,8 +22,9 @@ MainWindow::MainWindow(QWidget* parent)
     ui->graphicsView->scene()->clear();
 
     auto bc = picture.get_backColor();
+    auto sc = picture.get_mainSphereColor();
 
-    set_color(tmp, ui->lbl_sphereColor);
+    set_color(sc, ui->lbl_sphereColor);
     set_color(tmp, ui->lbl_figColor);
     set_color(bc, ui->lbl_backgroundColor);
 }
@@ -78,8 +79,10 @@ void MainWindow::set_color(QColor color, QLabel* lab)
 
 void MainWindow::on_pB_sphereColor_clicked()
 {
-    color_dialog(tmp);
-    set_color(tmp, ui->lbl_sphereColor);
+    QColor tmpC = picture.get_mainSphereColor();
+    color_dialog(tmpC);
+    set_color(tmpC, ui->lbl_sphereColor);
+    picture.set_mainSphereColor(tmpC);
 }
 
 void MainWindow::showEvent(QShowEvent* ev) // когда окно полностью сконструировано
@@ -123,7 +126,12 @@ void MainWindow::color_dialog(QColor& color)
 
 void MainWindow::on_pB_draw_clicked()
 {
+    // Настройка
+    double n = ui->dSB_sphereReflection->value();
+    picture.set_refIndex(n);
+    // Рисование
     img = picture.drawingFgure();
     QPixmap pxm = QPixmap::fromImage(*img);
+    ui->graphicsView->scene()->clear();
     ui->graphicsView->scene()->addPixmap(pxm);
 }

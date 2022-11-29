@@ -24,12 +24,13 @@ public:
     void set_backColor(QColor c);
     QColor get_backColor();
 
-    //    void set_object
+    void set_mainSphereColor(QColor c);
+    QColor get_mainSphereColor();
+
+    void set_refIndex(double r);
 
     QColor cast_ray(QVector3D orig, QVector3D dir, int depth);
-
     std::shared_ptr<QImage> drawingFgure();
-
     std::shared_ptr<QImage> drawingFigure(int nThr);
     void drawThr(int start, int end, std::shared_ptr<QImage>& img);
 

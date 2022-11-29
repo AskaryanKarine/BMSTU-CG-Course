@@ -24,7 +24,10 @@ public:
     QColor get_backgroundColor();
     void set_backfroundColor(QColor bc);
 
-    // получить и установить цвет линзы
+    QColor get_mainSphereColor();
+    void set_mainSphereColor(QColor c);
+
+    void set_refractiveIndex(double r);
 
 private:
     std::vector<std::shared_ptr<Model>> _obj;
