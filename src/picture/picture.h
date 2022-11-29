@@ -21,9 +21,12 @@ public:
     void set_maxDepth(int max_depth);
     int get_maxDepth();
 
+    void set_backColor(QColor c);
+    QColor get_backColor();
+
     //    void set_object
 
-    //    QVector3D cast_ray();
+    QColor cast_ray(QVector3D orig, QVector3D dir, int depth);
 
     std::shared_ptr<QImage> drawingFgure();
 
@@ -36,6 +39,10 @@ private:
     int _maxDepth;
 
     Scene _scene;
+    Camera _cam;
+
+    bool scene_intersect(QVector3D orig, QVector3D dir, QVector3D& hit, QVector3D& N, Material& m, int& closest);
+    void init();
 };
 
 #endif // PICTURE_H
