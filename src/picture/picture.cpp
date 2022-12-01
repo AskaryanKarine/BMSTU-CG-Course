@@ -79,6 +79,11 @@ void Picture::set_refIndex(double r)
     _scene.set_refractiveIndex(r);
 }
 
+void Picture::set_transparient(double tr)
+{
+    _scene.set_trasparient(tr);
+}
+
 bool Picture::scene_intersect(QVector3D orig, QVector3D dir, QVector3D& hit, QVector3D& N, Material& m, int& closest)
 {
     double dist = std::numeric_limits<double>::max();

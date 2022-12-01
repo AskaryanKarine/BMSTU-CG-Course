@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1216</width>
-    <height>751</height>
+    <width>1368</width>
+    <height>846</height>
    </rect>
   </property>
   <property name="font">
@@ -1005,8 +1005,14 @@
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="dSB_sphereTransparency">
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
            <property name="singleStep">
             <double>0.010000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.500000000000000</double>
            </property>
           </widget>
          </item>
@@ -1052,8 +1058,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1216</width>
-     <height>28</height>
+     <width>1368</width>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

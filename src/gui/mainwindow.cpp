@@ -129,6 +129,9 @@ void MainWindow::on_pB_draw_clicked()
     // Настройка
     double n = ui->dSB_sphereReflection->value();
     picture.set_refIndex(n);
+    double tr = ui->dSB_sphereTransparency->value();
+    picture.set_transparient(tr);
+
     // Рисование
     img = picture.drawingFgure();
     QPixmap pxm = QPixmap::fromImage(*img);

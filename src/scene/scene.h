@@ -28,6 +28,7 @@ public:
     void set_mainSphereColor(QColor c);
 
     void set_refractiveIndex(double r);
+    void set_trasparient(double r);
 
 private:
     std::vector<std::shared_ptr<Model>> _obj;

@@ -28,6 +28,7 @@ public:
     QColor get_mainSphereColor();
 
     void set_refIndex(double r);
+    void set_transparient(double tr);
 
     QColor cast_ray(QVector3D orig, QVector3D dir, int depth);
     std::shared_ptr<QImage> drawingFgure();
