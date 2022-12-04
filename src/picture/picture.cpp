@@ -1,6 +1,7 @@
 #include "picture.h"
 
 #include <iostream>
+#include <thread>
 
 Picture::Picture()
     : _height(100)
@@ -84,26 +85,33 @@ void Picture::set_transparient(double tr)
     _scene.set_trasparient(tr);
 }
 
-bool Picture::scene_intersect(QVector3D orig, QVector3D dir, QVector3D& hit, QVector3D& N, Material& m, int& closest)
+void Picture::move_camera(QVector3D offset)
+{
+    _cam.transform(offset, offset, offset);
+}
+
+QVector3D Picture::get_cam_pos()
+{
+    return _cam.get_position();
+}
+
+bool Picture::scene_intersect(QVector3D orig, QVector3D dir, double& t, int& closest)
 {
     double dist = std::numeric_limits<double>::max();
     auto models = _scene.get_model();
     closest = -1;
-    N = QVector3D(0, 0, 0);
-
+    t = 0;
     for (size_t i = 0; i < models.size(); i++) {
         double dist_i = 0;
         if (models[i]->rayIntersect(orig, dir, dist_i) && dist_i < dist) {
             dist = dist_i;
-            hit = orig + dir * dist;
-            m = models[i]->get_material();
             closest = i;
-            N = models[i]->get_normal();
         }
     }
     if (closest == -1)
         return false;
 
+    t = dist;
     return true;
 }
 
@@ -136,78 +144,68 @@ QColor getColor(Material m, double difIntency, double specIntency, QColor reflec
     };
 
     QColor res;
-    int a, dc, sc, refl, refr;
-    dc = m.get_difColor().red();
-    sc = m.get_specColor().red();
-    refl = reflect.red();
-    refr = refract.red();
-    res.setRed(elemColor(difIntency, specIntency, m.get_albedo(), dc, sc, refl, refr));
+    int Rdc, Rsc, Rrefl, Rrefr;
+    int Gdc, Gsc, Grefl, Grefr;
+    int Bdc, Bsc, Brefl, Brefr;
+    m.get_difColor().getRgb(&Rdc, &Gdc, &Bdc);
+    m.get_specColor().getRgb(&Rsc, &Gsc, &Bsc);
+    reflect.getRgb(&Rrefl, &Grefl, &Brefl);
+    refract.getRgb(&Rrefr, &Grefr, &Brefr);
 
-    dc = m.get_difColor().green();
-    sc = m.get_specColor().green();
-    refl = reflect.green();
-    refr = refract.green();
-    res.setGreen(elemColor(difIntency, specIntency, m.get_albedo(), dc, sc, refl, refr));
-
-    dc = m.get_difColor().blue();
-    sc = m.get_specColor().blue();
-    refl = reflect.blue();
-    refr = refract.blue();
-    res.setBlue(elemColor(difIntency, specIntency, m.get_albedo(), dc, sc, refl, refr));
+    res.setRed(elemColor(difIntency, specIntency, m.get_albedo(), Rdc, Rsc, Rrefl, Rrefr));
+    res.setGreen(elemColor(difIntency, specIntency, m.get_albedo(), Gdc, Gsc, Grefl, Grefr));
+    res.setBlue(elemColor(difIntency, specIntency, m.get_albedo(), Bdc, Bsc, Brefl, Brefr));
 
     return res;
 }
 
 QColor Picture::cast_ray(QVector3D orig, QVector3D dir, int depth)
 {
-    QVector3D point, N;
-    Material material;
     int closest = 0;
-
+    double t;
     auto lights = _scene.get_light();
     auto models = _scene.get_model();
 
-    if (depth > _maxDepth || !scene_intersect(orig, dir, point, N, material, closest)) {
+    if (depth > _maxDepth || !scene_intersect(orig, dir, t, closest)) {
         return (_scene.get_backgroundColor());
     }
 
-    // вместо *_orig = point
-    QVector3D reflect_dir = reflect(dir, N).normalized();
+    auto material = models[closest]->get_material();
+    QVector3D N = models[closest]->get_normal();
+    QVector3D point = orig + dir * t;
 
-    QVector3D reflect_orig = QVector3D::dotProduct(reflect_dir, N) < 0 ? point - N * 1e-3 : point + N * 1e-3;
-    QColor reflect_color = cast_ray(reflect_orig, reflect_dir, depth + 1);
+    QVector3D reflect_dir = reflect(dir, N).normalized();
+    QColor reflect_color = cast_ray(point, reflect_dir, depth + 1);
 
     QVector3D refract_dir = refract(dir, N, material.get_refractive_index()).normalized();
-    QVector3D refract_orig = QVector3D::dotProduct(refract_dir, N) < 0 ? point - N * 1e-3 : point + N * 1e-3;
-    QColor refract_color = cast_ray(refract_orig, refract_dir, depth + 1);
+    QColor refract_color = cast_ray(point, refract_dir, depth + 1);
 
     double diffuse_intensity = 0, specular_intensity = 0;
     for (size_t i = 0; i < lights.size(); i++) {
-        QVector3D light_dir = (lights[i]->get_position() - point).normalized();
+        //        QVector3D light_dir = (lights[i]->get_position() - point).normalized();
+        QVector3D light_dir = (point - lights[i]->get_position()).normalized();
 
-        double light_distance = (lights[i]->get_position() - point).length();
-
-        QVector3D shadow_orig = QVector3D::dotProduct(light_dir, N) < 0 ? point - N * 1e-3 : point + N * 1e-3;
-        QVector3D shadow_pt, shadow_N;
-        Material tmpmaterial;
-        if (scene_intersect(shadow_orig, light_dir, shadow_pt, shadow_N, tmpmaterial, closest) && (shadow_pt - shadow_orig).length() < light_distance)
+        models[closest]->rayIntersect(lights[i]->get_position(), light_dir, t);
+        double t1 = 0;
+        int tmp;
+        if (scene_intersect(lights[i]->get_position(), light_dir, t1, tmp) && t1 < t)
             continue;
 
-        diffuse_intensity += lights[i]->get_intensity() * std::max(0.f, QVector3D::dotProduct(light_dir, N));
-        specular_intensity += powf(std::max(0.f, QVector3D::dotProduct(-reflect(-light_dir, N), dir)), material.get_spec_exp()) * lights[i]->get_intensity();
+        diffuse_intensity += lights[i]->get_intensity() * std::max(0.f, QVector3D::dotProduct(N, (-1) * light_dir));
+        specular_intensity += powf(std::max(0.f, QVector3D::dotProduct(reflect(light_dir, N).normalized(), dir * (-1))), material.get_spec_exp()) * lights[i]->get_intensity();
     }
 
     return getColor(material, diffuse_intensity, specular_intensity, reflect_color, refract_color);
 }
 
-std::shared_ptr<QImage> Picture::drawingFgure()
+std::shared_ptr<QImage> Picture::drawingFigure()
 {
     std::shared_ptr<QImage> image = std::make_shared<QImage>(_width, _height, QImage::Format_RGB32);
     image->fill(_scene.get_backgroundColor());
 
     for (int y = 0; y < _height; y++) {
         for (int x = 0; x < _width; x++) {
-            QVector3D screen(x, y, 200);
+            QVector3D screen(x, y, 1000);
             QVector3D dir = (screen - _cam.get_position()).normalized();
             _cam.set_direction(dir);
             QColor res = cast_ray(_cam.get_position(), _cam.get_direction(), 0);
@@ -217,4 +215,50 @@ std::shared_ptr<QImage> Picture::drawingFgure()
 
     std::cout << "done" << std::endl;
     return image;
+}
+
+std::shared_ptr<QImage> Picture::drawingFigure(int nThr)
+{
+    std::shared_ptr<QImage> image = std::make_shared<QImage>(_width, _height, QImage::Format_RGB32);
+    image->fill(Qt::black);
+
+    std::vector<std::thread> thrs(nThr);
+    std::vector<std::vector<QColor>> buffer(_height, std::vector<QColor>(_width, QColor(0, 0, 0)));
+    std::vector<int> limits;
+
+    int one_thr = _height / nThr;
+    for (int i = 0; i < nThr; i++) {
+        limits.push_back(i * one_thr);
+    }
+    limits.push_back(_height);
+
+    for (int i = 0; i < nThr; i++)
+        thrs[i] = std::thread(&Picture::drawThr, this, limits[i], limits[i + 1], std::ref(buffer));
+
+    for (int i = 0; i < nThr; i++)
+        thrs[i].join();
+
+    for (int y = 0; y < _height; y++) {
+        for (int x = 0; x < _width; x++) {
+            image->setPixelColor(x, y, buffer[y][x]);
+        }
+    }
+
+    std::cout << "done" << std::endl;
+    return image;
+}
+
+void Picture::drawThr(int start, int end, std::vector<std::vector<QColor>>& img)
+{
+    for (int y = start; y < end; y++) {
+        for (int x = 0; x < _width; x++) {
+            QVector3D screen(x, y, 200);
+            QVector3D dir = (screen - _cam.get_position()).normalized();
+            _cam.set_direction(dir);
+            QColor res = cast_ray(_cam.get_position(), _cam.get_direction(), 0);
+            //            _pmx_lock.lock();
+            img[y][x] = res;
+            //            _pmx_lock.unlock();
+        }
+    }
 }
