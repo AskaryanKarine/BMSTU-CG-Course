@@ -78,11 +78,6 @@ QColor Scene::get_backgroundColor()
 void Scene::set_backfroundColor(QColor bc)
 {
     _backgroungColor = bc;
-    for (auto object : _obj) {
-        auto m = object->get_material();
-        m.set_specColor(bc);
-        object->set_material(m);
-    }
 }
 
 QColor Scene::get_mainSphereColor()
