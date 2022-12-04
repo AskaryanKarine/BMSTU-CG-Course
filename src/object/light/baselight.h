@@ -7,7 +7,7 @@
 class BaseLight : public Object {
 public:
     BaseLight() = default;
-    explicit BaseLight(QVector3D pos, double i = 1);
+    explicit BaseLight(QVector3D pos, double i = 2);
     virtual ~BaseLight() = default;
 
     QVector3D get_position();
