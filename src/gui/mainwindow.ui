@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1368</width>
-    <height>846</height>
+    <width>1265</width>
+    <height>780</height>
    </rect>
   </property>
   <property name="font">
@@ -722,6 +722,13 @@
           <number>11</number>
          </property>
          <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>Изменить положение объекта</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="pB_draw">
            <property name="maximumSize">
             <size>
@@ -730,7 +737,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Применить изменения</string>
+            <string>Нарисовать</string>
            </property>
           </widget>
          </item>
@@ -892,7 +899,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pB_cameraZoom">
+          <widget class="QPushButton" name="pB_cameraZoomPlus">
            <property name="minimumSize">
             <size>
              <width>40</width>
@@ -921,7 +928,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_cam_right_3">
+          <widget class="QPushButton" name="pB_cameraZoomMinus">
            <property name="minimumSize">
             <size>
              <width>40</width>
@@ -1037,6 +1044,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="label_pos">
+        <property name="text">
+         <string>Камера:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -1058,8 +1072,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1368</width>
-     <height>32</height>
+     <width>1265</width>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

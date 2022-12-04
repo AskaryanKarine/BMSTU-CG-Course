@@ -5,6 +5,7 @@
 #include <QColorDialog>
 #include <QGraphicsScene>
 #include <QMessageBox>
+#include <QString>
 #include <QTimer>
 
 MainWindow::MainWindow(QWidget* parent)
@@ -12,8 +13,6 @@ MainWindow::MainWindow(QWidget* parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QAction* HelpAction = ui->menubar->addAction("Помощь");
-    //        connect(HelpAction, SIGNAL(triggered()), this, SLOT(author_info_show()));
     QAction* ExitAction = ui->menubar->addAction(("Выход"));
     connect(ExitAction, SIGNAL(triggered()), this, SLOT(app_exit()));
 
@@ -27,6 +26,11 @@ MainWindow::MainWindow(QWidget* parent)
     set_color(sc, ui->lbl_sphereColor);
     set_color(tmp, ui->lbl_figColor);
     set_color(bc, ui->lbl_backgroundColor);
+    camera_step = 100;
+    auto cp = picture.get_cam_pos();
+    QString p;
+    p = p.asprintf("Камера: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
+    ui->label_pos->setText(p);
 }
 
 MainWindow::~MainWindow()
@@ -133,8 +137,68 @@ void MainWindow::on_pB_draw_clicked()
     picture.set_transparient(tr);
 
     // Рисование
-    img = picture.drawingFgure();
+    img = picture.drawingFigure();
     QPixmap pxm = QPixmap::fromImage(*img);
     ui->graphicsView->scene()->clear();
     ui->graphicsView->scene()->addPixmap(pxm);
+}
+
+void MainWindow::on_pB_cameraLeft_clicked()
+{
+    QVector3D offset(camera_step, 0, 0);
+    picture.move_camera(offset);
+    auto cp = picture.get_cam_pos();
+    QString p;
+    p = p.asprintf("Камера: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
+    ui->label_pos->setText(p);
+}
+
+void MainWindow::on_pB_cameraZoomPlus_clicked()
+{
+    QVector3D offset(0, 0, camera_step);
+    picture.move_camera(offset);
+    auto cp = picture.get_cam_pos();
+    QString p;
+    p = p.asprintf("Камера: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
+    ui->label_pos->setText(p);
+}
+
+void MainWindow::on_pB_cameraUp_clicked()
+{
+    QVector3D offset(0, camera_step, 0);
+    picture.move_camera(offset);
+    auto cp = picture.get_cam_pos();
+    QString p;
+    p = p.asprintf("Камера: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
+    ui->label_pos->setText(p);
+}
+
+void MainWindow::on_pB_cameraDown_clicked()
+{
+    QVector3D offset(0, -camera_step, 0);
+    picture.move_camera(offset);
+    auto cp = picture.get_cam_pos();
+    QString p;
+    p = p.asprintf("Камера: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
+    ui->label_pos->setText(p);
+}
+
+void MainWindow::on_pB_cameraRight_clicked()
+{
+    QVector3D offset(-camera_step, 0, 0);
+    picture.move_camera(offset);
+    auto cp = picture.get_cam_pos();
+    QString p;
+    p = p.asprintf("Камера: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
+    ui->label_pos->setText(p);
+}
+
+void MainWindow::on_pB_cameraZoomMinus_clicked()
+{
+    QVector3D offset(0, 0, -camera_step);
+    picture.move_camera(offset);
+    auto cp = picture.get_cam_pos();
+    QString p;
+    p = p.asprintf("Камера: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
+    ui->label_pos->setText(p);
 }
