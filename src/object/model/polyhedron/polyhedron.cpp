@@ -28,11 +28,13 @@ std::tuple<bool, double, QVector3D> Polyhedron::rayIntersect(const QVector3D& or
     bool intersect = false;
     for (size_t i = 0; i < _pols.size(); i++) {
         auto intersectRes = _pols[i].rayIntersect(origin, direction, _points);
-        double t1 = std::get<1>(intersectRes);
-        if (t1 < t && fuzzyZero(t1)) {
-            t = t1;
-            norm = std::get<2>(intersectRes);
-            intersect = true;
+        if (std::get<0>(intersectRes)) {
+            double t1 = std::get<1>(intersectRes);
+            if (t1 < t && !fuzzyZero(t1)) {
+                t = t1;
+                norm = std::get<2>(intersectRes);
+                intersect = true;
+            }
         }
     }
     return std::tuple<bool, double, QVector3D>(intersect, t, norm);

@@ -137,7 +137,7 @@ void MainWindow::on_pB_draw_clicked()
     picture.set_transparient(tr);
 
     // Рисование
-    img = picture.drawingFigure(64);
+    img = picture.drawingFigure(8);
     QPixmap pxm = QPixmap::fromImage(*img);
     ui->graphicsView->scene()->clear();
     ui->graphicsView->scene()->addPixmap(pxm);
