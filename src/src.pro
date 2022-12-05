@@ -32,6 +32,7 @@ HEADERS += \
     object/model/polyhedron/polyhedron.h \
     object/model/sphere/sphere.h \
     object/object.h \
+    objloader/objloader.h \
     picture/picture.h \
     scene/scene.h
 
@@ -55,7 +56,9 @@ INCLUDEPATH += \
     object/model/polyhedron \
     object/model/sphere \
     picture \
-    scene
+    scene \
+    objloader \
+    obj
 
 RESOURCES += \
     gui/icons.qrc
