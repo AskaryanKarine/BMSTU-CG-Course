@@ -10,7 +10,7 @@ public:
     ~Polyhedron() {};
 
     void transform(const QVector3D& move, const QVector3D& scale, const QVector3D& rotate) override;
-    bool rayIntersect(const QVector3D& origin, const QVector3D& direction, double& t, QVector3D& norm) override;
+    std::tuple<bool, double, QVector3D> rayIntersect(const QVector3D& origin, const QVector3D& direction) override;
 
 private:
     QVector3D _center;

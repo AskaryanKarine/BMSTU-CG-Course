@@ -95,26 +95,28 @@ QVector3D Picture::get_cam_pos()
     return _cam.get_position();
 }
 
-bool Picture::scene_intersect(QVector3D orig, QVector3D dir, double& t, int& closest, QVector3D& norm)
+std::tuple<bool, double, int, QVector3D> Picture::scene_intersect(const QVector3D& orig, const QVector3D& dir)
 {
     double dist = std::numeric_limits<double>::max();
     auto models = _scene.get_model();
-    QVector3D N;
-    closest = -1;
-    t = 0;
+    QVector3D norm(0, 0, 0);
+    int closest = -1;
+    double t = 0;
+    std::tuple<bool, double, int, QVector3D> r(false, t, closest, norm);
     for (size_t i = 0; i < models.size(); i++) {
-        double dist_i = 0;
-        if (models[i]->rayIntersect(orig, dir, dist_i, N) && dist_i < dist) {
+        auto intersectRes = models[i]->rayIntersect(orig, dir);
+        double dist_i = std::get<1>(intersectRes);
+        if (std::get<0>(intersectRes) && dist_i < dist) {
             dist = dist_i;
             closest = i;
-            norm = N;
+            norm = std::get<2>(intersectRes);
         }
     }
     if (closest == -1)
-        return false;
+        return r;
 
     t = dist;
-    return true;
+    return std::tuple<bool, double, int, QVector3D>(true, t, closest, norm);
 }
 
 QVector3D reflect(const QVector3D& I, const QVector3D& N)
@@ -161,18 +163,19 @@ QColor getColor(Material m, double difIntency, double specIntency, QColor reflec
     return res;
 }
 
-QColor Picture::cast_ray(QVector3D orig, QVector3D dir, int depth)
+QColor Picture::cast_ray(const QVector3D& orig, const QVector3D& dir, int depth)
 {
-    int closest = 0;
-    double t;
     auto lights = _scene.get_light();
     auto models = _scene.get_model();
-    QVector3D N;
 
-    if (depth > _maxDepth || !scene_intersect(orig, dir, t, closest, N)) {
+    auto sceneRes = scene_intersect(orig, dir);
+
+    if (depth > _maxDepth || !std::get<0>(sceneRes)) {
         return (_scene.get_backgroundColor());
     }
-
+    int closest = std::get<2>(sceneRes);
+    double t = std::get<1>(sceneRes);
+    QVector3D N = std::get<3>(sceneRes);
     auto material = models[closest]->get_material();
 
     QVector3D point = orig + dir * t;
@@ -185,13 +188,13 @@ QColor Picture::cast_ray(QVector3D orig, QVector3D dir, int depth)
 
     double diffuse_intensity = 0, specular_intensity = 0;
     for (size_t i = 0; i < lights.size(); i++) {
-        //        QVector3D light_dir = (lights[i]->get_position() - point).normalized();
         QVector3D light_dir = (point - lights[i]->get_position()).normalized();
-        QVector3D tN;
-        models[closest]->rayIntersect(lights[i]->get_position(), light_dir, t, tN);
-        double t1 = 0;
-        int tmp;
-        if (scene_intersect(lights[i]->get_position(), light_dir, t1, tmp, tN) && t1 < t)
+        auto intersectRes = models[closest]->rayIntersect(lights[i]->get_position(), light_dir);
+        auto lightRes = scene_intersect(lights[i]->get_position(), light_dir);
+        t = std::get<1>(intersectRes);
+        double t1 = std::get<1>(lightRes);
+
+        if (std::get<0>(lightRes) && t1 < t)
             continue;
 
         diffuse_intensity += lights[i]->get_intensity() * std::max(0.f, QVector3D::dotProduct(N, (-1) * light_dir));
@@ -208,10 +211,9 @@ std::shared_ptr<QImage> Picture::drawingFigure()
 
     for (int y = 0; y < _height; y++) {
         for (int x = 0; x < _width; x++) {
-            QVector3D screen(x, y, 1000);
+            QVector3D screen(x, y, 200);
             QVector3D dir = (screen - _cam.get_position()).normalized();
-            _cam.set_direction(dir);
-            QColor res = cast_ray(_cam.get_position(), _cam.get_direction(), 0);
+            QColor res = cast_ray(_cam.get_position(), dir, 0);
             image->setPixelColor(x, y, res);
         }
     }
@@ -258,8 +260,7 @@ void Picture::drawThr(int start, int end, std::vector<std::vector<QColor>>& img)
         for (int x = 0; x < _width; x++) {
             QVector3D screen(x, y, 200);
             QVector3D dir = (screen - _cam.get_position()).normalized();
-            _cam.set_direction(dir);
-            QColor res = cast_ray(_cam.get_position(), _cam.get_direction(), 0);
+            QColor res = cast_ray(_cam.get_position(), dir, 0);
             img[y][x] = res;
         }
     }

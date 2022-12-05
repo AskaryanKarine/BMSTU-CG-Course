@@ -12,9 +12,11 @@ Sphere::Sphere(const QVector3D& center, const double& radius, const Material& m)
 {
 }
 
-bool Sphere::rayIntersect(const QVector3D& origin, const QVector3D& direction, double& t, QVector3D& norm)
+std::tuple<bool, double, QVector3D> Sphere::rayIntersect(const QVector3D& origin, const QVector3D& direction)
 {
-    norm = QVector3D(0, 0, 0);
+    QVector3D norm(0, 0, 0);
+    double t = 0;
+    std::tuple<bool, double, QVector3D> r(false, t, norm);
     QVector3D L = _center - origin; // соед. центр сферы и начало луча
     double tca = QVector3D::dotProduct(L, direction); // проекция L на луч (скаляр.произв.)
     double d2 = QVector3D::dotProduct(L, L) - tca * tca; // ближайшая к центру сферы точка луча (ее сдвиг от начала,
@@ -22,7 +24,7 @@ bool Sphere::rayIntersect(const QVector3D& origin, const QVector3D& direction, d
 
     double rad2 = _rad * _rad;
     if (d2 > rad2) // пересечение вне сферы, не пересекает типа
-        return false;
+        return r;
 
     double thc = sqrt(rad2 - d2); // расстояние от той ближайшей точки до пересечения
 
@@ -33,11 +35,11 @@ bool Sphere::rayIntersect(const QVector3D& origin, const QVector3D& direction, d
     else if (t1 > 1.0)
         t = t1;
     else
-        return false;
+        return r;
 
     QVector3D pt = origin + direction * t;
     norm = (pt + (_center * (-1))).normalized();
-    return true;
+    return std::tuple<bool, double, QVector3D>(true, t, norm);
 }
 
 void Sphere::transform(const QVector3D& move, const QVector3D& scale, const QVector3D& rotate)

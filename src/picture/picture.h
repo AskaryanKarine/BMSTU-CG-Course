@@ -46,9 +46,9 @@ private:
     Scene _scene;
     Camera _cam;
 
-    bool scene_intersect(QVector3D orig, QVector3D dir, double& t, int& closest, QVector3D &norm);
+    std::tuple<bool, double, int, QVector3D> scene_intersect(const QVector3D &orig, const QVector3D &dir);
     void init();
-    QColor cast_ray(QVector3D orig, QVector3D dir, int depth);
+    QColor cast_ray(const QVector3D &orig, const QVector3D &dir, int depth);
 
     //    std::mutex _pmx_lock;
 };
