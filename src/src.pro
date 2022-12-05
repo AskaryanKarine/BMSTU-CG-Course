@@ -15,6 +15,7 @@ SOURCES += \
     object/camera/camera.cpp \
     object/light/baselight.cpp \
     object/light/light_source/lightsource.cpp \
+    object/model/polyhedron/polygon.cpp \
     object/model/polyhedron/polyhedron.cpp \
     object/model/sphere/sphere.cpp \
     picture/picture.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     object/light/baselight.h \
     object/light/light_source/lightsource.h \
     object/model/model.h \
+    object/model/polyhedron/polygon.h \
     object/model/polyhedron/polyhedron.h \
     object/model/sphere/sphere.h \
     object/object.h \
