@@ -36,6 +36,7 @@ public:
 
     std::shared_ptr<QImage> drawingFigure();
     std::shared_ptr<QImage> drawingFigure(int nThr);
+    void drawThr(int start, int end, std::vector<std::vector<QColor>>& img);
 
 private:
     int _height;
@@ -45,9 +46,8 @@ private:
     Scene _scene;
     Camera _cam;
 
-    bool scene_intersect(QVector3D orig, QVector3D dir, double& t, int& closest);
+    bool scene_intersect(QVector3D orig, QVector3D dir, double& t, int& closest, QVector3D &norm);
     void init();
-    void drawThr(int start, int end, std::vector<std::vector<QColor>>& img);
     QColor cast_ray(QVector3D orig, QVector3D dir, int depth);
 
     //    std::mutex _pmx_lock;

@@ -12,9 +12,9 @@ Sphere::Sphere(const QVector3D& center, const double& radius, const Material& m)
 {
 }
 
-bool Sphere::rayIntersect(const QVector3D& origin, const QVector3D& direction, double& t)
+bool Sphere::rayIntersect(const QVector3D& origin, const QVector3D& direction, double& t, QVector3D& norm)
 {
-    _normal = QVector3D(0, 0, 0);
+    norm = QVector3D(0, 0, 0);
     QVector3D L = _center - origin; // соед. центр сферы и начало луча
     double tca = QVector3D::dotProduct(L, direction); // проекция L на луч (скаляр.произв.)
     double d2 = QVector3D::dotProduct(L, L) - tca * tca; // ближайшая к центру сферы точка луча (ее сдвиг от начала,
@@ -36,7 +36,7 @@ bool Sphere::rayIntersect(const QVector3D& origin, const QVector3D& direction, d
         return false;
 
     QVector3D pt = origin + direction * t;
-    _normal = (pt + (_center * (-1))).normalized();
+    norm = (pt + (_center * (-1))).normalized();
     return true;
 }
 

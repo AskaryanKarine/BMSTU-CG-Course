@@ -95,17 +95,19 @@ QVector3D Picture::get_cam_pos()
     return _cam.get_position();
 }
 
-bool Picture::scene_intersect(QVector3D orig, QVector3D dir, double& t, int& closest)
+bool Picture::scene_intersect(QVector3D orig, QVector3D dir, double& t, int& closest, QVector3D& norm)
 {
     double dist = std::numeric_limits<double>::max();
     auto models = _scene.get_model();
+    QVector3D N;
     closest = -1;
     t = 0;
     for (size_t i = 0; i < models.size(); i++) {
         double dist_i = 0;
-        if (models[i]->rayIntersect(orig, dir, dist_i) && dist_i < dist) {
+        if (models[i]->rayIntersect(orig, dir, dist_i, N) && dist_i < dist) {
             dist = dist_i;
             closest = i;
+            norm = N;
         }
     }
     if (closest == -1)
@@ -165,13 +167,14 @@ QColor Picture::cast_ray(QVector3D orig, QVector3D dir, int depth)
     double t;
     auto lights = _scene.get_light();
     auto models = _scene.get_model();
+    QVector3D N;
 
-    if (depth > _maxDepth || !scene_intersect(orig, dir, t, closest)) {
+    if (depth > _maxDepth || !scene_intersect(orig, dir, t, closest, N)) {
         return (_scene.get_backgroundColor());
     }
 
     auto material = models[closest]->get_material();
-    QVector3D N = models[closest]->get_normal();
+
     QVector3D point = orig + dir * t;
 
     QVector3D reflect_dir = reflect(dir, N).normalized();
@@ -184,11 +187,11 @@ QColor Picture::cast_ray(QVector3D orig, QVector3D dir, int depth)
     for (size_t i = 0; i < lights.size(); i++) {
         //        QVector3D light_dir = (lights[i]->get_position() - point).normalized();
         QVector3D light_dir = (point - lights[i]->get_position()).normalized();
-
-        models[closest]->rayIntersect(lights[i]->get_position(), light_dir, t);
+        QVector3D tN;
+        models[closest]->rayIntersect(lights[i]->get_position(), light_dir, t, tN);
         double t1 = 0;
         int tmp;
-        if (scene_intersect(lights[i]->get_position(), light_dir, t1, tmp) && t1 < t)
+        if (scene_intersect(lights[i]->get_position(), light_dir, t1, tmp, tN) && t1 < t)
             continue;
 
         diffuse_intensity += lights[i]->get_intensity() * std::max(0.f, QVector3D::dotProduct(N, (-1) * light_dir));
@@ -233,7 +236,8 @@ std::shared_ptr<QImage> Picture::drawingFigure(int nThr)
     limits.push_back(_height);
 
     for (int i = 0; i < nThr; i++)
-        thrs[i] = std::thread(&Picture::drawThr, this, limits[i], limits[i + 1], std::ref(buffer));
+        thrs[i]
+            = std::thread(&Picture::drawThr, this, limits[i], limits[i + 1], std::ref(buffer));
 
     for (int i = 0; i < nThr; i++)
         thrs[i].join();
@@ -256,9 +260,7 @@ void Picture::drawThr(int start, int end, std::vector<std::vector<QColor>>& img)
             QVector3D dir = (screen - _cam.get_position()).normalized();
             _cam.set_direction(dir);
             QColor res = cast_ray(_cam.get_position(), _cam.get_direction(), 0);
-            //            _pmx_lock.lock();
             img[y][x] = res;
-            //            _pmx_lock.unlock();
         }
     }
 }
