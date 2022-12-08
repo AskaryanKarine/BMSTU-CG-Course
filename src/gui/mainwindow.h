@@ -37,6 +37,13 @@ private slots:
     void on_pB_cameraRight_clicked();
     void on_pB_cameraZoomMinus_clicked();
     void on_pB_figAdd_clicked();
+    void on_pB_lightAdd_clicked();
+    void on_pB_lightDel_clicked();
+    void on_pB_figDel_clicked();
+
+    void on_pB_monig_all_clicked();
+
+    void on_cB_figAll_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow* ui;

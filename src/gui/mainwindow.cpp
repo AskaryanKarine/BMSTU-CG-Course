@@ -9,6 +9,8 @@
 #include <QTimer>
 #include <iostream>
 
+#include <QTextStream>
+
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -34,6 +36,12 @@ MainWindow::MainWindow(QWidget* parent)
     p = p.asprintf("Камера: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
     ui->label_pos->setText(p);
 
+    int cLight = picture.get_count_light();
+    for (int i = 0; i < cLight; i++) {
+        p = "Точечный источник света " + QString::number(i + 1);
+        ui->cB_lightAll->addItem(p);
+    }
+    ui->cB_lightAll->setCurrentIndex(ui->cB_lightAll->count() - 1);
     //    QString settingStyle = "#centralwidget { background-color: rgb(49, 32, 56); }";
     //    this->setStyleSheet(settingStyle);
 }
@@ -213,4 +221,77 @@ void MainWindow::on_pB_cameraZoomMinus_clicked()
 void MainWindow::on_pB_figAdd_clicked()
 {
     int type_id = ui->cB_figType->currentIndex();
+    picture.added_model(type_id, figColor);
+
+    auto a = ui->cB_figType->currentText();
+    QString p;
+    int curId = ui->cB_figAll->count() + 1;
+    p = a + " " + QString::number(curId);
+    ui->cB_figAll->addItem(p);
+    ui->cB_figAll->setCurrentIndex(ui->cB_figAll->count() - 1);
+}
+
+void MainWindow::on_pB_lightAdd_clicked()
+{
+    picture.added_light();
+    int curId = ui->cB_lightAll->count() + 1;
+    QString p = "Точечный источник света " + QString::number(curId);
+    ui->cB_lightAll->addItem(p);
+    ui->cB_lightAll->setCurrentIndex(ui->cB_lightAll->count() - 1);
+}
+
+void MainWindow::on_pB_lightDel_clicked()
+{
+    int curId = ui->cB_lightAll->currentIndex();
+    int lcnt = picture.get_count_light();
+    if (lcnt == 0) {
+        show_error("Удалять нечего");
+        return;
+    }
+    picture.remove_light(curId);
+    ui->cB_lightAll->removeItem(curId);
+}
+
+void MainWindow::on_pB_figDel_clicked()
+{
+    int curId = ui->cB_figAll->currentIndex() + 2;
+    int mcnt = picture.get_count_models();
+    if (mcnt == 2) {
+        show_error("Удалять нечего");
+        return;
+    }
+    picture.remove_model(curId);
+    ui->cB_figAll->removeItem(curId - 2);
+}
+
+void MainWindow::on_pB_monig_all_clicked()
+{
+    QVector3D move_light(ui->sB_lightMoveX->value(), ui->sB_lightMoveY->value(), ui->sB_lightMoveZ->value());
+    int light_id = ui->cB_lightAll->currentIndex();
+    if (picture.get_count_light() > 0)
+        picture.trasform_light(light_id, move_light);
+
+    QVector3D move_fig(ui->sB_figMoveX->value(), ui->sB_figMoveY->value(), ui->sB_figMoveZ->value());
+    QVector3D scale_fig(ui->sB_figScaleX->value(), ui->sB_figScaleY->value(), ui->sB_figScaleZ->value());
+    QVector3D rotate_fig(ui->sB_figRotateX->value(), ui->sB_figRotateY->value(), ui->sB_figRotateZ->value());
+    int fig_id = ui->cB_figAll->currentIndex() + 2;
+    if (picture.get_count_models() - 2 > 0) {
+        picture.transform_model(fig_id, move_fig, scale_fig, rotate_fig);
+        picture.change_fig_color(fig_id, figColor);
+    }
+}
+
+void MainWindow::on_cB_figAll_currentIndexChanged(int index)
+{
+    QString a = ui->cB_figAll->currentText();
+    auto n = a.split(" ");
+    bool flag = true;
+    if (!QString::compare(n[0], QString("Шар"), Qt::CaseInsensitive)) {
+        flag = false;
+    }
+    ui->sB_figRotateY->setEnabled(flag);
+    ui->sB_figRotateZ->setEnabled(flag);
+    ui->sB_figRotateX->setEnabled(flag);
+    ui->sB_figScaleY->setEnabled(flag);
+    ui->sB_figScaleZ->setEnabled(flag);
 }

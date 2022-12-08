@@ -11,6 +11,7 @@ public:
     ~Polyhedron() {};
 
     void transform(const QVector3D& move, const QVector3D& scale, const QVector3D& rotate) override;
+
     std::tuple<bool, double, QVector3D> rayIntersect(const QVector3D& origin, const QVector3D& direction) override;
     std::vector<QVector3D> get_points();
 
@@ -23,6 +24,9 @@ private:
     std::vector<Polygon> _pols;
 
     void calcCenter();
+    void _rotate(const QVector3D& rotate);
+    void _move(const QVector3D& move);
+    void _scale(const QVector3D& scale);
 };
 
 #endif // POLYHEDRON_H

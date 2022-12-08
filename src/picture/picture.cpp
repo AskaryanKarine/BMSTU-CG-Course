@@ -38,10 +38,10 @@ void Picture::init()
     // PLANE
     Material m1(1, 100, QVector4D(0.6, 1, 0, 0), QColor(79, 0, 112));
     std::vector<QVector3D> planePoints = {
-        QVector3D(50, 500, -1000),
-        QVector3D(1250, 500, -1000),
-        QVector3D(50, 500, 500),
-        QVector3D(1250, 500, 500),
+        QVector3D(-10000, 500, -1000),
+        QVector3D(10000, 500, -1000),
+        QVector3D(-10000, 500, 500),
+        QVector3D(10000, 500, 500),
     };
     std::vector<Polygon> planePolygons = {
         Polygon(std::vector<size_t>({ 0, 1, 2 }), planePoints),
@@ -55,8 +55,8 @@ void Picture::init()
 
     // BASE LIGHTS
     auto l = std::make_shared<LightSource>(QVector3D(0, 0, 0));
-    _lights.push_back(l);
-    auto l1 = std::make_shared<LightSource>(QVector3D(700, 500, 200));
+    //    _lights.push_back(l);
+    auto l1 = std::make_shared<LightSource>(QVector3D(700, 400, 200));
     _lights.push_back(l1);
     auto l2 = std::make_shared<LightSource>(QVector3D(500, 500, 500));
     _lights.push_back(l2);
@@ -322,10 +322,63 @@ void Picture::drawThr(int start, int end, std::shared_ptr<QImage>& img)
 {
     for (int y = start; y < end; y++) {
         for (int x = 0; x < _width; x++) {
-            QVector3D screen(x, y, 200);
+            QVector3D screen(x, y, 0);
+            screen += _screen;
             QVector3D dir = (screen - _cam.get_position()).normalized();
             QColor res = cast_ray(_cam.get_position(), dir, 0);
             img->setPixelColor(x, y, res);
         }
     }
+}
+
+void Picture::added_model(int type_index, QColor color)
+{
+    auto tM = _primitives[type_index];
+    auto m = tM->get_material();
+    m.set_difColor(color);
+    tM->set_material(m);
+    _obj.push_back(tM);
+}
+
+void Picture::remove_model(int id)
+{
+    _obj.erase(_obj.begin() + id);
+}
+
+void Picture::transform_model(int id, QVector3D move, QVector3D scale, QVector3D rotate)
+{
+    _obj[id]->transform(move, scale, rotate);
+}
+
+void Picture::added_light()
+{
+    auto l = std::make_shared<LightSource>(QVector3D(0, 0, 0));
+    _lights.push_back(l);
+}
+
+void Picture::remove_light(int id)
+{
+    _lights.erase(_lights.begin() + id);
+}
+
+void Picture::trasform_light(int id, QVector3D move)
+{
+    _lights[id]->transform(move, move, move);
+}
+
+int Picture::get_count_light()
+{
+    return _lights.size();
+}
+
+int Picture::get_count_models()
+{
+    return _obj.size();
+}
+
+void Picture::change_fig_color(int id, QColor fc)
+{
+    auto m = _obj[id]->get_material();
+    m.set_difColor(fc);
+    _obj[id]->set_material(m);
 }

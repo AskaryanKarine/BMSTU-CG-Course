@@ -392,12 +392,12 @@
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="sB_figScaleX">
-               <property name="minimum">
-                <number>-1000</number>
+              <widget class="QDoubleSpinBox" name="sB_figScaleX">
+               <property name="singleStep">
+                <double>0.001000000000000</double>
                </property>
-               <property name="maximum">
-                <number>1000</number>
+               <property name="value">
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -413,12 +413,12 @@
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="sB_figScaleY">
-               <property name="minimum">
-                <number>-1000</number>
+              <widget class="QDoubleSpinBox" name="sB_figScaleY">
+               <property name="singleStep">
+                <double>0.001000000000000</double>
                </property>
-               <property name="maximum">
-                <number>1000</number>
+               <property name="value">
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -434,12 +434,12 @@
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="sB_figScaleZ">
-               <property name="minimum">
-                <number>-1000</number>
+              <widget class="QDoubleSpinBox" name="sB_figScaleZ">
+               <property name="singleStep">
+                <double>0.001000000000000</double>
                </property>
-               <property name="maximum">
-                <number>1000</number>
+               <property name="value">
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -704,7 +704,7 @@
           <number>11</number>
          </property>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="pB_monig_all">
            <property name="text">
             <string>Изменить положение объекта</string>
            </property>
@@ -1065,21 +1065,9 @@
     <property name="title">
      <string>Сцена</string>
     </property>
-    <addaction name="actionLoadScene"/>
-    <addaction name="actionCaveScene"/>
    </widget>
    <addaction name="menu"/>
   </widget>
-  <action name="actionLoadScene">
-   <property name="text">
-    <string>Загрузить</string>
-   </property>
-  </action>
-  <action name="actionCaveScene">
-   <property name="text">
-    <string>Сохранить</string>
-   </property>
-  </action>
  </widget>
  <resources>
   <include location="icons.qrc"/>

@@ -30,11 +30,22 @@ public:
     void move_camera(QVector3D offset);
     QVector3D get_cam_pos();
 
-    void add_model();
-
     std::shared_ptr<QImage> drawingFigure();
     std::shared_ptr<QImage> drawingFigure(int nThr);
-    void drawThr(int start, int end, std::shared_ptr<QImage> &img);
+    void drawThr(int start, int end, std::shared_ptr<QImage>& img);
+
+    void added_model(int type_index, QColor color);
+    void remove_model(int id);
+    void transform_model(int id, QVector3D move, QVector3D scale, QVector3D rotate);
+
+    void added_light();
+    void remove_light(int id);
+    void trasform_light(int id, QVector3D move);
+
+    int get_count_light();
+    int get_count_models();
+
+    void change_fig_color(int id, QColor fc);
 
 private:
     int _height;

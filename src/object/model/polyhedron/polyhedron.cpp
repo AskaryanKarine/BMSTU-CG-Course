@@ -1,5 +1,7 @@
 #include "polyhedron.h"
 
+#include <iostream>
+
 Polyhedron::Polyhedron()
 {
 }
@@ -12,8 +14,74 @@ Polyhedron::Polyhedron(const std::vector<QVector3D>& points, const std::vector<P
     calcCenter();
 }
 
+inline double toRad(double angle)
+{
+    return angle * M_PI / 180.0;
+}
+
+void rotate(double& x, double& y, const double& a)
+{
+    double rad = toRad(a);
+    double tX = x;
+    double tY = y;
+
+    x = tX * cos(rad) + tY * sin(rad);
+    y = -tX * sin(rad) + tY * cos(rad);
+}
+
+void point_rotate(QVector3D& point, QVector3D angle)
+{
+    double x = point.x();
+    double y = point.y();
+    double z = point.z();
+
+    rotate(x, y, angle.z());
+    rotate(x, z, angle.y());
+    rotate(y, z, angle.x());
+
+    point.setX(x);
+    point.setY(y);
+    point.setZ(z);
+}
+
 void Polyhedron::transform(const QVector3D& move, const QVector3D& scale, const QVector3D& rotate)
 {
+    _move(move);
+    calcCenter();
+    _scale(scale);
+    _rotate(rotate);
+
+    for (size_t i = 0; i < _points.size(); i++)
+        std::cout << "v " << _points[i].x() << " " << _points[i].y() << " " << _points[i].z() << std::endl;
+    std::cout << "-----------" << std::endl;
+}
+
+void Polyhedron::_rotate(const QVector3D& rotate)
+{
+    _move(QVector3D(-_center.x(), -_center.y(), -_center.z()));
+    for (auto& p : _points)
+        point_rotate(p, rotate);
+    _move(QVector3D(_center.x(), _center.y(), _center.z()));
+    for (auto& p : _pols)
+        p.calcNorm(_points);
+}
+
+void Polyhedron::_move(const QVector3D& move)
+{
+    for (auto& p : _points)
+        p += move;
+
+    for (auto& p : _pols)
+        p.calcNorm(_points);
+}
+
+void Polyhedron::_scale(const QVector3D& scale)
+{
+    for (auto& p : _points)
+        p *= scale;
+
+    for (auto& p : _pols)
+        p.calcNorm(_points);
 }
 
 bool fuzzyZero(double n)
