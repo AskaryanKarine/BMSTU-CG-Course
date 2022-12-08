@@ -141,7 +141,7 @@ void MainWindow::on_pB_draw_clicked()
     double n = ui->dSB_sphereReflection->value();
     picture.set_refIndex(n);
     double tr = ui->dSB_sphereTransparency->value();
-    picture.set_transparient(tr);
+    picture.set_transparient(1 - tr);
 
     // Рисование
     img = picture.drawingFigure(16);
