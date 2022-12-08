@@ -23,6 +23,7 @@ void Picture::init()
 {
     _scene.init_scene();
     _cam.set_position(QVector3D(0, 0, 3000));
+    _screen = QVector3D(0, 0, 200);
 }
 
 void Picture::set_height(int height)
@@ -30,29 +31,14 @@ void Picture::set_height(int height)
     _height = height;
 }
 
-int Picture::get_height()
-{
-    return _height;
-}
-
 void Picture::set_width(int width)
 {
     _width = width;
 }
 
-int Picture::get_width()
-{
-    return _width;
-}
-
 void Picture::set_maxDepth(int max_depth)
 {
     _maxDepth = max_depth;
-}
-
-int Picture::get_maxDepth()
-{
-    return _maxDepth;
 }
 
 void Picture::set_backColor(QColor c)
@@ -88,6 +74,7 @@ void Picture::set_transparient(double tr)
 void Picture::move_camera(QVector3D offset)
 {
     _cam.transform(offset, offset, offset);
+    _screen -= offset;
 }
 
 QVector3D Picture::get_cam_pos()
@@ -211,7 +198,8 @@ std::shared_ptr<QImage> Picture::drawingFigure()
 
     for (int y = 0; y < _height; y++) {
         for (int x = 0; x < _width; x++) {
-            QVector3D screen(x, y, 200);
+            QVector3D screen(x, y, 0);
+            screen += _screen;
             QVector3D dir = (screen - _cam.get_position()).normalized();
             QColor res = cast_ray(_cam.get_position(), dir, 0);
             image->setPixelColor(x, y, res);
@@ -225,7 +213,7 @@ std::shared_ptr<QImage> Picture::drawingFigure()
 std::shared_ptr<QImage> Picture::drawingFigure(int nThr)
 {
     std::shared_ptr<QImage> image = std::make_shared<QImage>(_width, _height, QImage::Format_RGB32);
-    image->fill(Qt::black);
+    image->fill(_scene.get_backgroundColor());
 
     std::vector<std::thread> thrs(nThr);
     std::vector<std::vector<QColor>> buffer(_height, std::vector<QColor>(_width, QColor(0, 0, 0)));

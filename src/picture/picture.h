@@ -14,13 +14,9 @@ public:
     Picture(int height, int width, int depth);
 
     void set_height(int height);
-    int get_height();
-
     void set_width(int width);
-    int get_width();
 
     void set_maxDepth(int max_depth);
-    int get_maxDepth();
 
     void set_backColor(QColor c);
     QColor get_backColor();
@@ -34,6 +30,8 @@ public:
     void move_camera(QVector3D offset);
     QVector3D get_cam_pos();
 
+    void add_model();
+
     std::shared_ptr<QImage> drawingFigure();
     std::shared_ptr<QImage> drawingFigure(int nThr);
     void drawThr(int start, int end, std::vector<std::vector<QColor>>& img);
@@ -45,12 +43,16 @@ private:
 
     Scene _scene;
     Camera _cam;
+    QVector3D _screen;
+    std::vector<std::shared_ptr<Model>> _obj;
+    std::vector<std::shared_ptr<Model>> _primitives;
+    std::vector<std::shared_ptr<BaseLight>> _lights;
 
-    std::tuple<bool, double, int, QVector3D> scene_intersect(const QVector3D &orig, const QVector3D &dir);
+    QColor _backgroungColor;
+
     void init();
-    QColor cast_ray(const QVector3D &orig, const QVector3D &dir, int depth);
-
-    //    std::mutex _pmx_lock;
+    std::tuple<bool, double, int, QVector3D> scene_intersect(const QVector3D& orig, const QVector3D& dir);
+    QColor cast_ray(const QVector3D& orig, const QVector3D& dir, int depth);
 };
 
 #endif // PICTURE_H
