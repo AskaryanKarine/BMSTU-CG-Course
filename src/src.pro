@@ -18,8 +18,7 @@ SOURCES += \
     object/model/polyhedron/polygon.cpp \
     object/model/polyhedron/polyhedron.cpp \
     object/model/sphere/sphere.cpp \
-    picture/picture.cpp \
-    scene/scene.cpp
+    picture/picture.cpp
 
 HEADERS += \
     gui/mainwindow.h \
@@ -33,8 +32,7 @@ HEADERS += \
     object/model/sphere/sphere.h \
     object/object.h \
     objloader/objloader.h \
-    picture/picture.h \
-    scene/scene.h
+    picture/picture.h
 
 FORMS += \
     gui/mainwindow.ui
@@ -56,7 +54,6 @@ INCLUDEPATH += \
     object/model/polyhedron \
     object/model/sphere \
     picture \
-    scene \
     objloader \
     obj
 

@@ -1,12 +1,12 @@
 #ifndef PICTURE_H
 #define PICTURE_H
 
-#include "scene.h"
-
+#include "baselight.h"
+#include "camera.h"
+#include "model.h"
 #include <QImage>
 #include <QVector3D>
 #include <memory>
-#include <mutex>
 
 class Picture {
 public:
@@ -34,14 +34,13 @@ public:
 
     std::shared_ptr<QImage> drawingFigure();
     std::shared_ptr<QImage> drawingFigure(int nThr);
-    void drawThr(int start, int end, std::vector<std::vector<QColor>>& img);
+    void drawThr(int start, int end, std::shared_ptr<QImage> &img);
 
 private:
     int _height;
     int _width;
     int _maxDepth;
 
-    Scene _scene;
     Camera _cam;
     QVector3D _screen;
     std::vector<std::shared_ptr<Model>> _obj;
@@ -53,6 +52,7 @@ private:
     void init();
     std::tuple<bool, double, int, QVector3D> scene_intersect(const QVector3D& orig, const QVector3D& dir);
     QColor cast_ray(const QVector3D& orig, const QVector3D& dir, int depth);
+    void load_primitives(std::string filename);
 };
 
 #endif // PICTURE_H
