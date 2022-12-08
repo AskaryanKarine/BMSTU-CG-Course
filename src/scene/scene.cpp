@@ -6,6 +6,7 @@
 #include "polyhedron.h"
 #include "sphere.h"
 
+#include <QFile>
 #include <QResource>
 #include <iostream>
 
@@ -19,18 +20,24 @@ void Scene::init_scene()
     // Элементы по умолчанию. 0 - главная сфера, 1 - нижняя плоскость, ниже которой нельзя поместить объекты
     // главная сфера
     Material m(1, 100, QVector4D(0.2, 0.9, 0.7, 0.5), QColor(188, 21, 79));
-    auto mainSph = std::make_shared<Sphere>(QVector3D(480, 311, 100), 200, m);
+    auto mainSph = std::make_shared<Sphere>(QVector3D(480, 350, 100), 150, m);
     _obj.push_back(mainSph);
 
     // плоскость
     Material m1(1, 100, QVector4D(0.6, 1, 0, 0), QColor(105, 105, 0));
-    auto Sph = std::make_shared<Sphere>(QVector3D(100, 311, -400), 10, m1);
-    _obj.push_back(Sph);
-
-    //    QResource plane_res(":/obj/plane.obj");
-    //    auto r = plane_res.fileName();
-    //    std::cout << r.toStdString() << std::endl;
-    load_models("../src/obj/2.obj");
+    std::vector<QVector3D> planePoints = {
+        QVector3D(50, 500, -1000),
+        QVector3D(1250, 500, -1000),
+        QVector3D(50, 500, 500),
+        QVector3D(1250, 500, 500),
+    };
+    std::vector<Polygon> planePolygons = {
+        Polygon(std::vector<size_t>({ 0, 1, 2 }), planePoints),
+        Polygon(std::vector<size_t>({ 3, 2, 1 }), planePoints),
+    };
+    auto plane = std::make_shared<Polyhedron>(planePoints, planePolygons, m1);
+    _obj.push_back(plane);
+    load_primitives("../src/obj/1.obj");
 
     auto l = std::make_shared<LightSource>(QVector3D(0, 0, 0));
     _lights.push_back(l);
@@ -38,6 +45,8 @@ void Scene::init_scene()
     _lights.push_back(l1);
     auto l2 = std::make_shared<LightSource>(QVector3D(500, 500, 500));
     _lights.push_back(l2);
+    auto l3 = std::make_shared<LightSource>(QVector3D(1000, 500, 500));
+    _lights.push_back(l3);
 }
 
 std::vector<std::shared_ptr<Model>> Scene::get_model()
@@ -118,8 +127,12 @@ void Scene::set_trasparient(double r)
     _obj[0]->set_material(m);
 }
 
-bool Scene::load_models(std::string filename)
+bool Scene::load_primitives(std::string filename)
 {
+    Material m(1, 50, QVector4D(0.6, 1, 0, 0), QColor(255, 69, 0));
+    auto Sph = std::make_shared<Sphere>(QVector3D(480, 350, -500), 150, m);
+    _primitives.push_back(Sph);
+
     objl::Loader loader;
 
     bool loaded = loader.LoadFile(filename);
@@ -151,11 +164,38 @@ bool Scene::load_models(std::string filename)
 
             p.set_points(points);
             p.set_polygons(polygons);
-            p.set_material(Material(1, 100, QVector4D(0.6, 1, 0, 0), QColor(105, 105, 0)));
+            p.set_material(m);
 
-            _obj.push_back(std::make_shared<Polyhedron>(p));
+            _primitives.push_back(std::make_shared<Polyhedron>(p));
         }
         return true;
     }
     return false;
+}
+
+void Scene::create_primitives()
+{
+    Material m(1, 50, QVector4D(0.6, 1, 0, 0), QColor(255, 69, 0));
+    auto Sph = std::make_shared<Sphere>(QVector3D(480, 350, -500), 150, m);
+    _primitives.push_back(Sph);
+    _primitives.push_back(Sph);
+
+    std::vector<QVector3D> parPoints = {
+        QVector3D(330, 500, -50), //   A  0
+        //        QVector3D(x, 500, -50), //   B  1
+        QVector3D(480, 500, -150), //    C  2
+        //        QVector3D(x, 500, -150), // D 3
+        QVector3D(360, 200, -100), // E 4
+    };
+    std::vector<Polygon> parPolygons = {
+        Polygon(std::vector<size_t>({ 0, 1, 2 }), parPoints),
+        Polygon(std::vector<size_t>({ 3, 2, 1 }), parPoints),
+        Polygon(std::vector<size_t>({ 0, 1, 4 }), parPoints),
+        Polygon(std::vector<size_t>({ 2, 4, 3 }), parPoints),
+        Polygon(std::vector<size_t>({ 0, 4, 2 }), parPoints),
+        Polygon(std::vector<size_t>({ 1, 4, 3 }), parPoints),
+
+    };
+    auto par = std::make_shared<Polyhedron>(parPoints, parPolygons, m);
+    _primitives.push_back(par);
 }

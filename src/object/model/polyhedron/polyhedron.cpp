@@ -48,6 +48,7 @@ std::vector<QVector3D> Polyhedron::get_points()
 void Polyhedron::set_points(std::vector<QVector3D> p)
 {
     _points = p;
+    calcCenter();
 }
 
 void Polyhedron::set_polygons(std::vector<Polygon> p)

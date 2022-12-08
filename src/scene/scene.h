@@ -30,13 +30,15 @@ public:
     void set_refractiveIndex(double r);
     void set_trasparient(double r);
 
-    bool load_models(std::string filename);
-
 private:
     std::vector<std::shared_ptr<Model>> _obj;
     std::vector<std::shared_ptr<BaseLight>> _lights;
 
     QColor _backgroungColor;
+
+    std::vector<std::shared_ptr<Model>> _primitives;
+    bool load_primitives(std::string filename);
+    void create_primitives();
 };
 
 #endif // SCENE_H
