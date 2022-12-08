@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1265</width>
-    <height>780</height>
+    <width>1274</width>
+    <height>809</height>
    </rect>
   </property>
   <property name="font">
@@ -17,6 +17,10 @@
   </property>
   <property name="windowTitle">
    <string>Трассировка лучей</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/icon/icons/icons8-sphere-60.png</normaloff>:/icon/icons/icons8-sphere-60.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -64,12 +68,12 @@
              </item>
              <item>
               <property name="text">
-               <string>Пирамида</string>
+               <string>3-уг. пирамида</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>Параллелепипед</string>
+               <string>4-уг. пирамида</string>
               </property>
              </item>
              <item>
@@ -178,7 +182,7 @@
              <property name="iconSize">
               <size>
                <width>20</width>
-               <height>30</height>
+               <height>40</height>
               </size>
              </property>
             </widget>
@@ -448,28 +452,6 @@
       </item>
       <item>
        <widget class="QGroupBox" name="groupBox_3">
-        <property name="styleSheet">
-         <string notr="true"> QGroupBox {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #E0E0E0, stop: 1 #FFFFFF);
-     border: 2px solid gray;
-     border-radius: 5px;
-     margin-top: 1ex; /* оставляем пространство вверху для заголовка */
- }
-
- QGroupBox::title {
-     subcontrol-origin: margin;
-     subcontrol-position: top center; /* помещаем вверху по центру */
-     padding: 0 3px;
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #FF0ECE, stop: 1 #FFFFFF);
- }
-
- QGroupBox::indicator {
-     width: 13px;
-     height: 13px;
- }</string>
-        </property>
         <property name="title">
          <string>Источники света</string>
         </property>
@@ -539,7 +521,7 @@
              <property name="iconSize">
               <size>
                <width>20</width>
-               <height>30</height>
+               <height>40</height>
               </size>
              </property>
             </widget>
@@ -634,16 +616,16 @@
         <layout class="QHBoxLayout" name="horizontalLayout_24">
          <item>
           <widget class="QPushButton" name="pB_backgroundColor">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="mouseTracking">
+            <bool>false</bool>
+           </property>
            <property name="styleSheet">
-            <string notr="true">.QPushButton {
-	border: 2px solid '#4CAF50';
-}
-
-.QPushButton:hover {
-    background-color: '#4CAF50'; /* Green */
-    color: white;
-}
-</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>Цвет фона</string>
@@ -795,6 +777,9 @@
              <width>40</width>
              <height>40</height>
             </size>
+           </property>
+           <property name="mouseTracking">
+            <bool>true</bool>
            </property>
            <property name="text">
             <string/>
@@ -1013,7 +998,7 @@
          <item>
           <widget class="QDoubleSpinBox" name="dSB_sphereTransparency">
            <property name="maximum">
-            <double>1.000000000000000</double>
+            <double>99.000000000000000</double>
            </property>
            <property name="singleStep">
             <double>0.010000000000000</double>
@@ -1072,7 +1057,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1265</width>
+     <width>1274</width>
      <height>28</height>
     </rect>
    </property>

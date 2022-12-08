@@ -36,10 +36,11 @@ private slots:
     void on_pB_cameraDown_clicked();
     void on_pB_cameraRight_clicked();
     void on_pB_cameraZoomMinus_clicked();
+    void on_pB_figAdd_clicked();
 
 private:
     Ui::MainWindow* ui;
-    QColor tmp = Qt::black;
+    QColor figColor = Qt::black;
     Picture picture;
     std::shared_ptr<QImage> img;
     int camera_step;
