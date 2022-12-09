@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1274</width>
+    <width>1355</width>
     <height>809</height>
    </rect>
   </property>
@@ -1029,11 +1029,29 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_pos">
-        <property name="text">
-         <string>Камера:</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_pos">
+          <property name="text">
+           <string>Камера:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_pos_light">
+          <property name="text">
+           <string>Источник света</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_pos_obj">
+          <property name="text">
+           <string>Объект</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="horizontalSpacer">
@@ -1057,7 +1075,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1274</width>
+     <width>1355</width>
      <height>28</height>
     </rect>
    </property>
@@ -1065,9 +1083,15 @@
     <property name="title">
      <string>Сцена</string>
     </property>
+    <addaction name="a_saveImage"/>
    </widget>
    <addaction name="menu"/>
   </widget>
+  <action name="a_saveImage">
+   <property name="text">
+    <string>Сохранить изображение</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="icons.qrc"/>

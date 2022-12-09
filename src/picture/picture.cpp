@@ -8,6 +8,8 @@
 #include "polyhedron.h"
 #include "sphere.h"
 
+#include <QtMath>
+
 Picture::Picture()
     : _height(100)
     , _width(100)
@@ -38,10 +40,10 @@ void Picture::init()
     // PLANE
     Material m1(1, 100, QVector4D(0.6, 1, 0, 0), QColor(79, 0, 112));
     std::vector<QVector3D> planePoints = {
-        QVector3D(-10000, 500, -1000),
-        QVector3D(10000, 500, -1000),
-        QVector3D(-10000, 500, 500),
-        QVector3D(10000, 500, 500),
+        QVector3D(-2000, 500, -1000),
+        QVector3D(2000, 500, -1000),
+        QVector3D(-2000, 500, 500),
+        QVector3D(2000, 500, 500),
     };
     std::vector<Polygon> planePolygons = {
         Polygon(std::vector<size_t>({ 0, 1, 2 }), planePoints),
@@ -350,6 +352,13 @@ void Picture::transform_model(int id, QVector3D move, QVector3D scale, QVector3D
     _obj[id]->transform(move, scale, rotate);
 }
 
+QVector3D Picture::get_pos_model(int id)
+{
+    if (get_count_models() > 2)
+        return _obj[id]->get_center();
+    return QVector3D(qSqrt(-1), qSqrt(-1), qSqrt(-1));
+}
+
 void Picture::added_light()
 {
     auto l = std::make_shared<LightSource>(QVector3D(0, 0, 0));
@@ -364,6 +373,13 @@ void Picture::remove_light(int id)
 void Picture::trasform_light(int id, QVector3D move)
 {
     _lights[id]->transform(move, move, move);
+}
+
+QVector3D Picture::get_pos_light(int id)
+{
+    if (get_count_light() > 0)
+        return _lights[id]->get_position();
+    return QVector3D(qSqrt(-1), qSqrt(-1), qSqrt(-1));
 }
 
 int Picture::get_count_light()

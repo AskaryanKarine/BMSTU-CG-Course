@@ -9,7 +9,7 @@ public:
     ~LightSource() {};
     explicit LightSource(QVector3D pos);
 
-    void transform(const QVector3D& move, const QVector3D& scale, const QVector3D& rotate) override; // TODO
+    void transform(const QVector3D& move, const QVector3D& scale, const QVector3D& rotate) override;
 };
 
 #endif // LIGHTSOURCE_H

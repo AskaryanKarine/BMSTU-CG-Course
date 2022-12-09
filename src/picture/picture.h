@@ -37,10 +37,12 @@ public:
     void added_model(int type_index, QColor color);
     void remove_model(int id);
     void transform_model(int id, QVector3D move, QVector3D scale, QVector3D rotate);
+    QVector3D get_pos_model(int id);
 
     void added_light();
     void remove_light(int id);
     void trasform_light(int id, QVector3D move);
+    QVector3D get_pos_light(int id);
 
     int get_count_light();
     int get_count_models();

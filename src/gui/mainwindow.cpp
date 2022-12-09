@@ -3,13 +3,12 @@
 
 #include <QColor>
 #include <QColorDialog>
+#include <QFileDialog>
 #include <QGraphicsScene>
 #include <QMessageBox>
 #include <QString>
 #include <QTimer>
 #include <iostream>
-
-#include <QTextStream>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -42,6 +41,8 @@ MainWindow::MainWindow(QWidget* parent)
         ui->cB_lightAll->addItem(p);
     }
     ui->cB_lightAll->setCurrentIndex(ui->cB_lightAll->count() - 1);
+    info_light_pos(ui->cB_lightAll->currentIndex());
+    info_obj_pos(ui->cB_figAll->currentIndex() + 2);
     //    QString settingStyle = "#centralwidget { background-color: rgb(49, 32, 56); }";
     //    this->setStyleSheet(settingStyle);
 }
@@ -141,6 +142,22 @@ void MainWindow::color_dialog(QColor& color)
         show_error("Выберите цвет");
     else
         color = tmp;
+}
+
+void MainWindow::info_light_pos(int id)
+{
+    auto cp = picture.get_pos_light(id);
+    QString p;
+    p = p.asprintf("Свет: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
+    ui->label_pos_light->setText(p);
+}
+
+void MainWindow::info_obj_pos(int id)
+{
+    auto cp = picture.get_pos_model(id);
+    QString p;
+    p = p.asprintf("Объект: (%.0f, %.0f, %.0f)", cp.x(), cp.y(), cp.z());
+    ui->label_pos_obj->setText(p);
 }
 
 void MainWindow::on_pB_draw_clicked()
@@ -268,8 +285,10 @@ void MainWindow::on_pB_monig_all_clicked()
 {
     QVector3D move_light(ui->sB_lightMoveX->value(), ui->sB_lightMoveY->value(), ui->sB_lightMoveZ->value());
     int light_id = ui->cB_lightAll->currentIndex();
-    if (picture.get_count_light() > 0)
+    if (picture.get_count_light() > 0) {
         picture.trasform_light(light_id, move_light);
+        info_light_pos(light_id);
+    }
 
     QVector3D move_fig(ui->sB_figMoveX->value(), ui->sB_figMoveY->value(), ui->sB_figMoveZ->value());
     QVector3D scale_fig(ui->sB_figScaleX->value(), ui->sB_figScaleY->value(), ui->sB_figScaleZ->value());
@@ -278,6 +297,7 @@ void MainWindow::on_pB_monig_all_clicked()
     if (picture.get_count_models() - 2 > 0) {
         picture.transform_model(fig_id, move_fig, scale_fig, rotate_fig);
         picture.change_fig_color(fig_id, figColor);
+        info_obj_pos(fig_id);
     }
 }
 
@@ -294,4 +314,25 @@ void MainWindow::on_cB_figAll_currentIndexChanged(int index)
     ui->sB_figRotateX->setEnabled(flag);
     ui->sB_figScaleY->setEnabled(flag);
     ui->sB_figScaleZ->setEnabled(flag);
+
+    info_obj_pos(index + 2);
+}
+
+void MainWindow::on_cB_lightAll_currentIndexChanged(int index)
+{
+    info_light_pos(index);
+}
+
+void MainWindow::on_a_saveImage_triggered()
+{
+    if (img == nullptr)
+        show_error("Нет изображения для сохранения");
+    // ui->statusbar->showMessage("No image drawn. Cannot save white canvas.");
+    else {
+        QString filename = QFileDialog::getSaveFileName();
+        if (!filename.isNull())
+            img->save(filename);
+        else
+            show_error("Проблемы с файлом");
+    }
 }

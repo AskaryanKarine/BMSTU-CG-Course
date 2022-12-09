@@ -124,6 +124,11 @@ void Polyhedron::set_polygons(std::vector<Polygon> p)
     _pols = p;
 }
 
+QVector3D Polyhedron::get_center()
+{
+    return _center;
+}
+
 void Polyhedron::calcCenter()
 {
     _center = QVector3D(0, 0, 0);

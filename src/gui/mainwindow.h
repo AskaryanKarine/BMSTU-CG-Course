@@ -40,10 +40,12 @@ private slots:
     void on_pB_lightAdd_clicked();
     void on_pB_lightDel_clicked();
     void on_pB_figDel_clicked();
-
     void on_pB_monig_all_clicked();
-
     void on_cB_figAll_currentIndexChanged(int index);
+
+    void on_cB_lightAll_currentIndexChanged(int index);
+
+    void on_a_saveImage_triggered();
 
 private:
     Ui::MainWindow* ui;
@@ -53,5 +55,7 @@ private:
     int camera_step;
 
     void color_dialog(QColor& color);
+    void info_light_pos(int id);
+    void info_obj_pos(int id);
 };
 #endif // MAINWINDOW_H

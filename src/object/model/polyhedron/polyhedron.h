@@ -18,6 +18,8 @@ public:
     void set_points(std::vector<QVector3D> p);
     void set_polygons(std::vector<Polygon> p);
 
+    QVector3D get_center() override;
+
 private:
     QVector3D _center;
     std::vector<QVector3D> _points;

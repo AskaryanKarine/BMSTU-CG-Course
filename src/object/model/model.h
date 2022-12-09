@@ -15,6 +15,7 @@ public:
 
     Material get_material() { return _mat; };
     void set_material(Material m) { _mat = m; };
+    virtual QVector3D get_center() = 0;
 
     virtual std::tuple<bool, double, QVector3D> rayIntersect(const QVector3D& origin, const QVector3D& direction) = 0;
 

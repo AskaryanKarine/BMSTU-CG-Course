@@ -15,7 +15,7 @@ public:
     double get_radius();
     void set_radius(double r);
 
-    QVector3D get_center();
+    QVector3D get_center() override;
     void set_center(QVector3D center);
 
 private:
