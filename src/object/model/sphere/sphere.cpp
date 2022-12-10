@@ -4,6 +4,13 @@ Sphere::Sphere()
 {
 }
 
+Sphere::Sphere(const Sphere& sphere)
+    : Model(sphere._mat)
+    , _rad(sphere._rad)
+    , _center(sphere._center)
+{
+}
+
 Sphere::Sphere(const QVector3D& center, const double& radius, const Material& m)
     : Model(m)
     , _rad(radius)
@@ -66,4 +73,9 @@ QVector3D Sphere::get_center()
 void Sphere::set_center(QVector3D center)
 {
     _center = center;
+}
+
+std::shared_ptr<Model> Sphere::clone()
+{
+    return std::make_shared<Sphere>(_center, _rad, _mat);
 }

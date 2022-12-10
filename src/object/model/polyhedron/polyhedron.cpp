@@ -6,6 +6,14 @@ Polyhedron::Polyhedron()
 {
 }
 
+Polyhedron::Polyhedron(const Polyhedron& p)
+    : _center(p._center)
+    , _points(p._points)
+    , _pols(p._pols)
+{
+    _mat = p._mat;
+}
+
 Polyhedron::Polyhedron(const std::vector<QVector3D>& points, const std::vector<Polygon>& polygins, const Material& m)
     : Model(m)
     , _points(points)
@@ -113,6 +121,11 @@ std::vector<QVector3D> Polyhedron::get_points()
     return _points;
 }
 
+std::vector<Polygon> Polyhedron::get_polygins()
+{
+    return _pols;
+}
+
 void Polyhedron::set_points(std::vector<QVector3D> p)
 {
     _points = p;
@@ -127,6 +140,11 @@ void Polyhedron::set_polygons(std::vector<Polygon> p)
 QVector3D Polyhedron::get_center()
 {
     return _center;
+}
+
+std::shared_ptr<Model> Polyhedron::clone()
+{
+    return std::make_shared<Polyhedron>(_points, _pols, _mat);
 }
 
 void Polyhedron::calcCenter()

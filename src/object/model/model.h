@@ -19,6 +19,8 @@ public:
 
     virtual std::tuple<bool, double, QVector3D> rayIntersect(const QVector3D& origin, const QVector3D& direction) = 0;
 
+    virtual std::shared_ptr<Model> clone() = 0;
+
 protected:
     Material _mat;
 };

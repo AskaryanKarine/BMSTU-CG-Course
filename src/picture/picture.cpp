@@ -335,7 +335,7 @@ void Picture::drawThr(int start, int end, std::shared_ptr<QImage>& img)
 
 void Picture::added_model(int type_index, QColor color)
 {
-    auto tM = _primitives[type_index];
+    auto tM = _primitives[type_index]->clone();
     auto m = tM->get_material();
     m.set_difColor(color);
     tM->set_material(m);

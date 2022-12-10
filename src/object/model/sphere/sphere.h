@@ -6,6 +6,7 @@
 class Sphere : public Model {
 public:
     Sphere();
+    Sphere(const Sphere& sphere);
     Sphere(const QVector3D& center, const double& radius, const Material& m);
     ~Sphere() {};
 
@@ -17,6 +18,8 @@ public:
 
     QVector3D get_center() override;
     void set_center(QVector3D center);
+
+    std::shared_ptr<Model> clone() override;
 
 private:
     double _rad;
