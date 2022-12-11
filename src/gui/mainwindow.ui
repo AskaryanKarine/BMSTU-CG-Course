@@ -394,7 +394,7 @@
              <item>
               <widget class="QDoubleSpinBox" name="sB_figScaleX">
                <property name="singleStep">
-                <double>0.001000000000000</double>
+                <double>0.010000000000000</double>
                </property>
                <property name="value">
                 <double>1.000000000000000</double>
@@ -415,7 +415,7 @@
              <item>
               <widget class="QDoubleSpinBox" name="sB_figScaleY">
                <property name="singleStep">
-                <double>0.001000000000000</double>
+                <double>0.010000000000000</double>
                </property>
                <property name="value">
                 <double>1.000000000000000</double>
@@ -436,7 +436,7 @@
              <item>
               <widget class="QDoubleSpinBox" name="sB_figScaleZ">
                <property name="singleStep">
-                <double>0.001000000000000</double>
+                <double>0.010000000000000</double>
                </property>
                <property name="value">
                 <double>1.000000000000000</double>
@@ -1017,6 +1017,9 @@
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="dSB_sphereReflection">
+           <property name="minimum">
+            <double>1.000000000000000</double>
+           </property>
            <property name="singleStep">
             <double>0.010000000000000</double>
            </property>
@@ -1084,12 +1087,19 @@
      <string>Сцена</string>
     </property>
     <addaction name="a_saveImage"/>
+    <addaction name="separator"/>
+    <addaction name="a_allFigure"/>
    </widget>
    <addaction name="menu"/>
   </widget>
   <action name="a_saveImage">
    <property name="text">
     <string>Сохранить изображение</string>
+   </property>
+  </action>
+  <action name="a_allFigure">
+   <property name="text">
+    <string>Сцена со всеми фигурами</string>
    </property>
   </action>
  </widget>

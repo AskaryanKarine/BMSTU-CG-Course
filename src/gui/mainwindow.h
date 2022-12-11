@@ -47,6 +47,8 @@ private slots:
 
     void on_a_saveImage_triggered();
 
+    void on_a_allFigure_triggered();
+
 private:
     Ui::MainWindow* ui;
     QColor figColor = Qt::black;

@@ -336,3 +336,26 @@ void MainWindow::on_a_saveImage_triggered()
             show_error("Проблемы с файлом");
     }
 }
+
+void MainWindow::on_a_allFigure_triggered()
+{
+    ui->cB_lightAll->clear();
+    ui->cB_figAll->clear();
+
+    picture.load_all();
+    int cLight = picture.get_count_light();
+    QString p;
+    for (int i = 0; i < cLight; i++) {
+        p = "Точечный источник света " + QString::number(i + 1);
+        ui->cB_lightAll->addItem(p);
+    }
+    ui->cB_lightAll->setCurrentIndex(ui->cB_lightAll->count() - 1);
+
+    int cFig = picture.get_count_models();
+    for (int i = 0; i < cFig - 2; i++) {
+        auto b = ui->cB_figType->itemText(i);
+        p = b + " " + QString::number(i + 1);
+        ui->cB_figAll->addItem(p);
+    }
+    ui->cB_figAll->setCurrentIndex(ui->cB_figAll->count() - 1);
+}

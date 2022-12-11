@@ -49,6 +49,8 @@ public:
 
     void change_fig_color(int id, QColor fc);
 
+    void load_all();
+
 private:
     int _height;
     int _width;

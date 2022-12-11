@@ -170,7 +170,7 @@ QVector3D refract(const QVector3D& I, const QVector3D& N, const double& refracti
     }
     double eta = etai / etat;
     double k = 1 - eta * eta * (1 - cosi * cosi);
-    return k < 0 ? QVector3D(0, 0, 0) : I * eta + n * (eta * cosi - sqrt(k));
+    return k < 0 ? QVector3D(1, 0, 0) : I * eta + n * (eta * cosi - sqrt(k));
 }
 
 QColor getColor(Material m, double difIntency, double specIntency, QColor reflect, QColor refract)
@@ -377,7 +377,7 @@ void Picture::trasform_light(int id, QVector3D move)
 
 QVector3D Picture::get_pos_light(int id)
 {
-    if (get_count_light() > 0)
+    if (get_count_light() > 0 && id > 0)
         return _lights[id]->get_position();
     return QVector3D(qSqrt(-1), qSqrt(-1), qSqrt(-1));
 }
@@ -397,4 +397,31 @@ void Picture::change_fig_color(int id, QColor fc)
     auto m = _obj[id]->get_material();
     m.set_difColor(fc);
     _obj[id]->set_material(m);
+}
+
+void Picture::load_all()
+{
+    for (size_t i = 0; i < _obj.size() - 2; i++)
+        remove_model(i + 2);
+
+    for (int i = 0; i < 5; i++)
+        added_model(i, QColor(255, 69, 0));
+
+    transform_model(2, QVector3D(-400, 50, 0), QVector3D(0.5, 1, 1), QVector3D(0, 0, 0));
+    transform_model(3, QVector3D(-200, 00, -400), QVector3D(1, 1, 1), QVector3D(0, 0, 0));
+    transform_model(4, QVector3D(100, 0, -400), QVector3D(1, 1, 1), QVector3D(0, 50, 0));
+    transform_model(5, QVector3D(400, 50, -300), QVector3D(1, 1, 1), QVector3D(0, 15, 0));
+    transform_model(6, QVector3D(600, 0, -300), QVector3D(1, 1, 1), QVector3D(0, 70, 0));
+
+    _lights.clear();
+    auto l = std::make_shared<LightSource>(QVector3D(0, 0, 0));
+    _lights.push_back(l);
+    auto l1 = std::make_shared<LightSource>(QVector3D(700, 400, 200));
+    _lights.push_back(l1);
+    auto l2 = std::make_shared<LightSource>(QVector3D(500, 500, 500));
+    _lights.push_back(l2);
+    auto l3 = std::make_shared<LightSource>(QVector3D(1000, 500, 500));
+    _lights.push_back(l3);
+    auto l4 = std::make_shared<LightSource>(QVector3D(1000, 0, 0));
+    _lights.push_back(l4);
 }
