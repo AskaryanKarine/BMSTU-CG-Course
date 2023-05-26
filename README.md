@@ -16,4 +16,9 @@
 ![Пример](docs/tex/img/ex3.png)
 ![Пример](docs/tex/img/ex4.png)
 
+Анимация: 
+![Анимация](docs/tex/img/ex.gif)
+Код генерации анимации находится в файле [`src/main.cpp`](src/main.cpp)
+
+
 Больше примеров [здесь](docs/tex/img) - файлы с названием `ex*.png`
